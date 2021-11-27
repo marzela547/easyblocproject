@@ -35,7 +35,8 @@ router.get('/', (req, res, next)=>{
 );
 
 router.use('/sec', secRouter);
-router.use('/notes',jwtMiddleware,notesRouter);
+router.use('/notes',notesRouter);
+router.use('/categories',notesRouter);
 
 /*
 router.get("/", (req, res, next) => {

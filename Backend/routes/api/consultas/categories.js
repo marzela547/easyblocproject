@@ -16,6 +16,17 @@ class Categories{
         process.exit(1);
         }
     }
+    
+//CONSULTA PARA ELIMINAR***************************************
+
+    async deleteById(id) {
+    let filter = { "_id": new ObjectID(id) };
+    let result = await this.categoriesColl.deleteOne(filter);
+    return result;
+  }
+/**************************************************************/
+
+
 }
 
 module.exports = Categories;
