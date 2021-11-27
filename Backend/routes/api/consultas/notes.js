@@ -16,7 +16,7 @@ class Notes{
     }
   }
   //A PARTIR DE AQUÍ EMPIEZAN A COLOCAR SU CÓDIGO
-  async getAll(id){
+ /* async getAll(id){
     const filter = {"user_id": new ObjectID(id)}
     let swots = await this.swotColl.find(filter);
     return swots.toArray();
@@ -68,7 +68,7 @@ class Notes{
       skip: (itemsPerPage * (page - 1))
     };*/
     //let cursor = await this.swotColl.find(filter, options);
-    let cursor = await this.swotColl.find(filter);
+    /*let cursor = await this.swotColl.find(filter);
     let docsMatched = await cursor.count();
     cursor.skip((itemsPerPage * (page - 1)));
     cursor.limit(itemsPerPage);
@@ -121,7 +121,7 @@ class Notes{
   */
  
 
-  async addNew(swotType, swotDesc, swotMetaArray, id){
+  /*async addNew(swotType, swotDesc, swotMetaArray, id){
     let newSwot = {
       swotType,
       swotDesc,
@@ -148,7 +148,7 @@ class Notes{
     let result = await this.swotColl.deleteOne(filter);
     return result;
   }
-
+*/
 
 }
 
