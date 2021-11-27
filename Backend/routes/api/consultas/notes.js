@@ -1,20 +1,21 @@
 var conn = require('../../../utils/conexion');
 var ObjectID = require('mongodb').ObjectId;
 var _db;
-class Swot{
-  swotColl =null;
+class Notes{
+  notesColl =null;
   constructor(){
     this.initModel();
   }
   async initModel(){
      try {
       _db = await conn.getDB();
-       this.swotColl = await _db.collection("SWOT");
+       this.notesColl = await _db.collection("nota");
     }catch(ex){
       console.log(ex);
       process.exit(1);
     }
   }
+  //A PARTIR DE AQUÍ EMPIEZAN A COLOCAR SU CÓDIGO
   async getAll(id){
     const filter = {"user_id": new ObjectID(id)}
     let swots = await this.swotColl.find(filter);
@@ -151,4 +152,4 @@ class Swot{
 
 }
 
-module.exports = Swot;
+module.exports = Notes;
