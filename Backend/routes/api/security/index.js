@@ -98,11 +98,11 @@ router.post('/login', async (req, res, next)=>{
 
 router.post('/signin', async (req, res, next) => {
   try {
-    const {email, pswd} = req.body;
-    let userAdded = await SecModel.createNewUser(email, pswd);
+    const { name, lastname, phone, email, password} = req.body;
+    let userAdded = await SecModel.createNewUser( name, lastname, phone, email, password);
     delete userAdded.password;
     console.log(userAdded);
-    res.status(200).json({"msg":"Usuario Creado Satisfactoriamente"});
+    res.status(200).json({"msg":"Usuario creado correctamente"});
   } catch (ex) {
     res.status(500).json({ "msg": "Error" });
   }
