@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var SwotDao = require('./swot.dao');
+var SwotDao = require('./notes');
 var Swot = new SwotDao();
 
 router.get('/all', async (req, res, next)=>{

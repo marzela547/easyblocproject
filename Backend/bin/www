@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var conn = require('../utils/dao');
+var conn = require('../utils/conexion');
 
 var app = require('../app');
 var debug = require('debug')('proyectoswotbackend:server');

@@ -1,4 +1,4 @@
-var conn = require('../../../utils/dao');
+var conn = require('../../../utils/conexion');
 var ObjectID = require('mongodb').ObjectId;
 var _db;
 class Swot{
