@@ -9,7 +9,7 @@ const mailSender = require('../../../utils/mailer');
 const GitHubStrategy = require('passport-github').Strategy;
 const dotenv = require('dotenv');
 const session = require('express-session');
-
+/*
 router.use(session({
   secret: process.env.keySecret,
   resave: false,
@@ -30,8 +30,8 @@ passport.serializeUser(function(user,cb){
 passport.deserializeUser(function(id,cb){
   cb(null, id);
 });
-
-
+*/
+/*
 
 passport.use(new GitHubStrategy({
     clientID: process.env.gitClientID,
@@ -57,6 +57,7 @@ passport.use(new KakaoStrategy({
   cbb(null, profile);
 }
 ))
+*/
 //--------------------------------------------------------------------
 router.post('/login', async (req, res, next)=>{
   try {

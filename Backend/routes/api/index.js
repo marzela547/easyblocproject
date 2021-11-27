@@ -26,7 +26,7 @@ const jwtMiddleware = passport.authenticate('jwt', {session:false});
 
 router.use(passport.initialize());
 
-var swotRouter = require('./consultas/index');
+var notesRouter = require('./consultas/index');
 var secRouter = require('./security/index');
 
 router.get('/', (req, res, next)=>{
@@ -35,8 +35,7 @@ router.get('/', (req, res, next)=>{
 );
 
 router.use('/sec', secRouter);
-router.use('/hw',secRouter);
-router.use('/swot', jwtMiddleware ,swotRouter);
+router.use('/notes',jwtMiddleware,notesRouter);
 
 /*
 router.get("/", (req, res, next) => {
