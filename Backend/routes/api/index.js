@@ -29,7 +29,10 @@ router.get('/', (req, res, next) => {
     res.status(200).json({ msg: 'Api V1 JSON' });
 });
 
-router.use('/sec', secRouter);
+router.use('/security', secRouter);
+
+router.use('/notes', jwtMiddleware, notesRouter);
+router.use('/categories', jwtMiddleware, notesRouter);
 router.use('/notes', jwtMiddleware, notesRouter);
 router.use('/categories', jwtMiddleware, notesRouter);
 

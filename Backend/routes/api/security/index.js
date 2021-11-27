@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 let router = express.Router();
-const jwt = require("jsonwebtoken");
-const passport = require("passport");
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
 let SecModelClass = require('./sec.model.js');
 let SecModel = new SecModelClass();
 const mailSender = require('../../../utils/mailer');
@@ -59,61 +59,84 @@ passport.use(new KakaoStrategy({
 ))
 */
 //--------------------------------------------------------------------
-router.post('/login', async (req, res, next)=>{
-  try {
-    const {email, pswd} = req.body;
-    //Validar los datos
-    let userLogged = await SecModel.getByEmail(email);
-    if (userLogged) {
-      const isPswdOk = await SecModel.comparePassword(pswd, userLogged.password);
-      if (isPswdOk) {
-        // podemos validar la vigencia de la contraseña
-        delete userLogged.password;
-        delete userLogged.oldpasswords;
-        delete userLogged.lastlogin;
-        delete userLogged.lastpasswordchange;
-        delete userLogged.passwordexpires;
+router.post('/login', async(req, res, next) => {
+    try {
+        const { email, pswd } = req.body;
+        let userLogged = await SecModel.getByEmail(email);
+        if (userLogged) {
+            const isPswdOk = await SecModel.comparePassword(
+                pswd,
+                userLogged.contrasena_usu
+            );
+
+            if (isPswdOk) {
+                // podemos validar la vigencia de la contraseña
+                delete userLogged.contrasena_usu;
+                delete userLogged.oldpasswords;
+                delete userLogged.lastlogin;
+                delete userLogged.lastpasswordchange;
+                delete userLogged.passwordexpires;
+                let payload = {
+                    jwt: jwt.sign({
+                            email: userLogged.email,
+                            _id: userLogged._id,
+                            roles: userLogged.roles,
+                        },
+                        process.env.JWT_SECRET, { expiresIn: '1d' }
+                    ),
+                    user: userLogged,
+                };
+                return res.status(200).json(payload);
+            }
+        }
+    } catch (ex) {
+        console.log(ex);
+        res.status(500).json({ msg: 'Error' });
+    }
+});
+
+router.get('/email', async(req, res, next) => {
+    try {
+        const { email, pswd } = req.body;
+        let userLogged = await SecModel.getByEmail(email);
         let payload = {
-          jwt: jwt.sign(
-            {
-              email: userLogged.email,
-              _id: userLogged._id,
-              roles: userLogged.roles
-            },
-            process.env.JWT_SECRET,
-            {expiresIn:'1d'}
-          ),
-          user: userLogged
+            email: userLogged.nombre_usu,
+            tel: userLogged.telefono_usu,
         };
         return res.status(200).json(payload);
-      }
+    } catch (ex) {
+        console.log(ex);
+        return res.status(500).json({ msg: 'Error al procesar petición' });
     }
-    console.log({email, userLogged});
-    return res.status(400).json({msg: "Credenciales no son Válidas"});
-  }catch (ex){
-    console.log(ex);
-    res.status(500).json({"msg":"Error"});
-  }
 });
 
-router.post('/signin', async (req, res, next) => {
-  try {
-    const {email, pswd} = req.body;
-    let userAdded = await SecModel.createNewUser(email, pswd);
-    delete userAdded.password;
-    console.log(userAdded);
-    res.status(200).json({"msg":"Usuario Creado Satisfactoriamente"});
-  } catch (ex) {
-    res.status(500).json({ "msg": "Error" });
-  }
+router.post('/signin', async(req, res, next) => {
+    try {
+        const { name, lastname, phone, email, password } = req.body;
+        let userAdded = await SecModel.createNewUser(
+            name,
+            lastname,
+            phone,
+            email,
+            password
+        );
+        delete userAdded.password;
+        console.log(userAdded);
+        res.status(200).json({ msg: 'Usuario creado correctamente' });
+    } catch (ex) {
+        res.status(500).json({ msg: 'Error' });
+    }
 });
 
-router.get('/kakao/getinfo',passport.authenticate('kakao', { failureRedirect: '/' }), (req, res)=>{
-  res.status(200).json({"msg":"¡Eureka! Funciona, Kakao"});
-});
+router.get(
+    '/kakao/getinfo',
+    passport.authenticate('kakao', { failureRedirect: '/' }),
+    (req, res) => {
+        res.status(200).json({ msg: '¡Eureka! Funciona, Kakao' });
+    }
+);
 
-router.get('/auth/kakao',
-  passport.authenticate('kakao'));
+router.get('/auth/kakao', passport.authenticate('kakao'));
 /*
 router.get('/oauth/kakao/callback', 
   passport.authenticate('kakao', { failureRedirect: '/' }),
@@ -124,41 +147,46 @@ router.get('/oauth/kakao/callback',
 */
 //----------------------GITHUB
 
-router.get('/github/getinfo', (req, res)=>{
-  res.status(200).json({"msg":"¡Eureka! Funciona, GitHub"});
+router.get('/github/getinfo', (req, res) => {
+    res.status(200).json({ msg: '¡Eureka! Funciona, GitHub' });
 });
-router.get('/auth/github',
-  passport.authenticate('github'));
+router.get('/auth/github', passport.authenticate('github'));
 
-router.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: '/' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.status(401);
-  });
+router.get(
+    '/auth/github/callback',
+    passport.authenticate('github', { failureRedirect: '/' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.status(401);
+    }
+);
 //-------------------------------
 let cache = '';
-router.post('/recovery', async (req, res, next) => {
-  try {
-    const {contra} = req.body;
-    let usu = await SecModel.cambiarContra(correo, contra);
-    res.status(200).json({"msg":"Contraseña editata correctamente"});
-  } catch (e) {
-    res.status(500).json({ "msg": "Error al editar la contraseña" });
-  }
+router.post('/recovery', async(req, res, next) => {
+    try {
+        const { contra } = req.body;
+        let usu = await SecModel.cambiarContra(correo, contra);
+        res.status(200).json({ msg: 'Contraseña editata correctamente' });
+    } catch (e) {
+        res.status(500).json({ msg: 'Error al editar la contraseña' });
+    }
 });
-router.post('/login', async(req, res, next)=>{});
-router.post('/signin', async(req, res, next)=>{});
+router.post('/login', async(req, res, next) => {});
+router.post('/signin', async(req, res, next) => {});
 
-router.post('/passrecovery', async(req, res, next)=>{
-  const {correo} = req.body;
-  let usu = await SecModel.getByEmail(correo);
-  if(usu){
-    cache=usu.email;
-    mailSender("marcelazelaya547@yahoo.com", "Pruebaaaaas", "Esto es una prueba de correo");
-  }
+router.post('/passrecovery', async(req, res, next) => {
+    const { correo } = req.body;
+    let usu = await SecModel.getByEmail(correo);
+    if (usu) {
+        cache = usu.email;
+        mailSender(
+            'marcelazelaya547@yahoo.com',
+            'Pruebaaaaas',
+            'Esto es una prueba de correo'
+        );
+    }
 
-  res.status(200).json({"msg":"Correo enviado correctamente"});
-})
+    res.status(200).json({ msg: 'Correo enviado correctamente' });
+});
 
 module.exports = router;

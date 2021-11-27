@@ -10,17 +10,20 @@ class Sec {
   async initModel() {
     try {
       _db = await conn.getDB();
-      this.secColl = await _db.collection("users");
+      this.secColl = await _db.collection("usuario");
     } catch (ex) {
       console.log(ex);
       process.exit(1);
     }
   }
-  async createNewUser( email, password) {
+  async createNewUser( name, lastname, phone, email, password) {
     try {
       let user = {
-        email: email,
-        password: await bcrypt.hash(password, 10),
+        nombre_usu: name,
+        apellido_usu: lastname,
+        telefono_usu: phone,
+        correo_usu: email,
+        contrasena_usu: await bcrypt.hash(password, 10),
         lastlogin: null,
         lastpasswordchange: null,
         passwordexpires: new Date().getTime() + (90 * 24 * 60 * 60 * 1000), 
@@ -57,7 +60,7 @@ class Sec {
   }
 
   async getByEmail(email){
-    const filter = {"email": email};
+    const filter = {"correo_usu": email};
     return await this.secColl.findOne(filter);
   }
 
@@ -65,15 +68,15 @@ class Sec {
     return await bcrypt.compare(rawPassword, dbPassword);
   }
 
-  async cambiarContra(correo,contra) {
+  async cambiarContra(email,pass) {
     try {
 
       let user = {
-        password: await bcrypt.hash(contra, 10),
+        password: await bcrypt.hash(pass, 10),
         passwordexpires: new Date().getTime() + (90 * 24 * 60 * 60 * 1000), 
       }
       
-      let resultado = await this.secColl.updateOne({email:correo},{$set:{password:user.password,passwordexpires:user.passwordexpires}});
+      let resultado = await this.secColl.updateOne({correo_usu:email},{$set:{contrasena_usu:user.password,passwordexpires:user.passwordexpires}});
       return resultado;
     } catch(e) {
       console.log(e);
