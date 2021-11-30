@@ -7,49 +7,84 @@ var Categories = new CategoriesDao();
 var CategeroisDao = require('./categories');
 var categories = new CategeroisDao();
 
-//**********Consultar 1 dato**********************************
-
-router.get('/byid/:id', async(req, res, next) => {
+//agregar nueva nota*********
+router.post('/new', async(req, res, next) => {
     try {
-        const { id } = req.params;
-        const oneNoteEntry = await notes.getById(id);
-        return res.status(200).json(oneNoteEntry);
-        console.log('Hola papis');
-    } catch (ex) {
-        console.log(ex);
-        return res.status(500).json({ msg: 'Error al procesar petición' });
-    }
-});
-/********************************************************** */
+        const {
+            descripcion_not,
+            categoria_cat,
+            titulo_not,
+            imagenes_not,
+            descripcion_not,
+            correo_usu
 
-/********Consulta MODIFICAR UNA CATEGORIA***********************************************/
-router.put('/updCategoria/:id', async(req, res, next) => {
-    try {
-        const { id } = req.params;
-        const { Descripcion_Cat } = req.body;
-        const result = await categories.updCategoria(id, Descripcion_Cat);
+        } = req.body;
+        const swotMetaArray = swotMeta.split('|');
+        // validaciones
+        const result = await Swot.addNew(descripcion_not, categoria_cat, titulo_not, imagenes_not, descripcion_not, correo_usu, req.nota._id);
         console.log(result);
-        res.status(200).json({ msg: 'Modificado OK' });
+        res.status(200).json({ msg: "Agregado Satisfactoriamente" });
     } catch (ex) {
         console.log(ex);
-        return res.status(500).json({ msg: 'Error al procesar petición' });
+        return res.status(500).json({ msg: "Error al procesar petición" });
     }
-});
-/******************************************************************** */
+}); // /new
 
-//**********Eliminar 1 dato**********************************
+//********consultar notas por categoria */
+router.get('/bycategoria/:categoria', async(req, res, next) => {
+            try {
+                const { categoria } = req.params;
 
-router.delete('/delete/:id', async(req, res, next) => {
-    try {
-        const { id } = req.params;
-        const result = await categories.deleteById(id);
-        console.log(result);
-        return res.status(200).json({ msg: 'Eliminado OK' });
-    } catch (ex) {
-        console.log(ex);
-        return res.status(500).json({ msg: 'Error al procesar petición' });
-    }
-});
-/********************************************************** */
+                const swots = await Swot.getBycategoria(type, req._id);
+                return res.status(200).json(swots);
+            } catch (ex) {
+                console.log(ex);
+                return res.status(500).json({ msg: "Error al procesar petición" });
+            }
 
-module.exports = router;
+            //**********Consultar 1 dato**********************************
+
+            router.get('/byid/:id', async(req, res, next) => {
+                try {
+                    const { id } = req.params;
+                    const oneNoteEntry = await notes.getById(id);
+                    return res.status(200).json(oneNoteEntry);
+                    console.log('Hola papis');
+                } catch (ex) {
+                    console.log(ex);
+                    return res.status(500).json({ msg: 'Error al procesar petición' });
+                }
+            });
+            /********************************************************** */
+
+            /********Consulta MODIFICAR UNA CATEGORIA***********************************************/
+            router.put('/updCategoria/:id', async(req, res, next) => {
+                try {
+                    const { id } = req.params;
+                    const { Descripcion_Cat } = req.body;
+                    const result = await categories.updCategoria(id, Descripcion_Cat);
+                    console.log(result);
+                    res.status(200).json({ msg: 'Modificado OK' });
+                } catch (ex) {
+                    console.log(ex);
+                    return res.status(500).json({ msg: 'Error al procesar petición' });
+                }
+            });
+            /******************************************************************** */
+
+            //**********Eliminar 1 dato**********************************
+
+            router.delete('/delete/:id', async(req, res, next) => {
+                try {
+                    const { id } = req.params;
+                    const result = await categories.deleteById(id);
+                    console.log(result);
+                    return res.status(200).json({ msg: 'Eliminado OK' });
+                } catch (ex) {
+                    console.log(ex);
+                    return res.status(500).json({ msg: 'Error al procesar petición' });
+                }
+            });
+            /********************************************************** */
+
+            module.exports = router;

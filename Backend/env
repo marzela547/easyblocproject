@@ -1,5 +1,0 @@
-MONGO_USER=externo123 
-MONGO_PSWD=externo123
-MONGO_HOST=cluster0.0rytd.mongodb.net
-MONGO_DB=easyblocdb
- 
