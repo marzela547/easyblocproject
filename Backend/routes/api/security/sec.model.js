@@ -38,7 +38,7 @@ class Sec {
       throw(ex);
     }
   }
-
+/*
   async createNewUserK( email) {
     try {
       let user = {
@@ -58,7 +58,7 @@ class Sec {
       throw(ex);
     }
   }
-
+*/
   async getByEmail(email){
     const filter = {"correo_usu": email};
     return await this.secColl.findOne(filter);
@@ -66,6 +66,10 @@ class Sec {
 
   async comparePassword (rawPassword, dbPassword){
     return await bcrypt.compare(rawPassword, dbPassword);
+  }
+
+  random(min, max){
+    return Math.floor((Math.random() * (max - min + 1)) + min);
   }
 
   async cambiarContra(email,pass) {

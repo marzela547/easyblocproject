@@ -141,21 +141,26 @@ let cache = '';
 router.post('/recovery', async (req, res, next) => {
   try {
     const {contra} = req.body;
-    let usu = await SecModel.cambiarContra(correo, contra);
+    let usu = await SecModel.cambiarContra(cache, contra);
     res.status(200).json({"msg":"Contraseña editata correctamente"});
   } catch (e) {
     res.status(500).json({ "msg": "Error al editar la contraseña" });
   }
 });
 router.post('/login', async(req, res, next)=>{});
-router.post('/signin', async(req, res, next)=>{});
+//router.post('/signin', async(req, res, next)=>{});
 
 router.post('/passrecovery', async(req, res, next)=>{
   const {correo} = req.body;
+  let segundos = 60;
+  let codigo = SecModel.random(1000,9999);
+
+  console.log(setInterval())
+
   let usu = await SecModel.getByEmail(correo);
   if(usu){
-    cache=usu.email;
-    mailSender("marcelazelaya547@yahoo.com", "Pruebaaaaas", "Esto es una prueba de correo");
+    cache=usu.correo_usu;
+    mailSender(usu.correo_usu, "Recuperación de contraseña", "Código de verificación: "+codigo);
   }
 
   res.status(200).json({"msg":"Correo enviado correctamente"});
