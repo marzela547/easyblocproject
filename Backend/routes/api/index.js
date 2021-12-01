@@ -1,42 +1,40 @@
 var express = require('express');
 var router = express.Router();
 
-
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const extractJWT = passportJWT.ExtractJwt;
 const strategyJWT = passportJWT.Strategy;
 
 passport.use(
-  new strategyJWT(
-    {
-      jwtFromRequest: extractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET
-    },
-    (payload, next) => {
-      // tienen la oportunidad de validaciones extras
-      return next(null, payload);
-    }
-  )
+    new strategyJWT({
+            jwtFromRequest: extractJWT.fromAuthHeaderAsBearerToken(),
+            secretOrKey: process.env.JWT_SECRET,
+        },
+        (payload, next) => {
+            // tienen la oportunidad de validaciones extras
+            return next(null, payload);
+        }
+    )
 );
 
-
-
-const jwtMiddleware = passport.authenticate('jwt', {session:false});
+const jwtMiddleware = passport.authenticate('jwt', { session: false });
 
 router.use(passport.initialize());
 
 var notesRouter = require('./consultas/index');
 var secRouter = require('./security/index');
 
-router.get('/', (req, res, next)=>{
-    res.status(200).json({"msg":"Api V1 JSON"});
-  }
-);
+router.get('/', (req, res, next) => {
+    res.status(200).json({ msg: 'Api V1 JSON' });
+});
 
-router.use('/sec', secRouter);
-router.use('/notes',notesRouter);
-router.use('/categories',notesRouter);
+router.use('/security', secRouter);
+
+router.use('/notes', jwtMiddleware, notesRouter);
+router.use('/categories', jwtMiddleware, notesRouter);
+router.use('/notes', jwtMiddleware, notesRouter);
+router.use('/categories', jwtMiddleware, notesRouter);
 
 /*
 router.get("/", (req, res, next) => {
