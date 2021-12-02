@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './store';
 import './App.css';
+import RequireAuth from './components/UI/RequireAuth';
+import Login from "./components/Login";
+import Ccontasena from "./components/Ccontrasena";
+const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <div className="bg-red-400 ">
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/ccontrasena" element={<Ccontasena />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </Provider>
   );
 }
-
 export default App;
