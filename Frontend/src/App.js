@@ -11,7 +11,7 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className="bg-red-400 ">
+        <div className=" h-screen w-screen">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/ccontrasena" element={<Ccontasena />} />

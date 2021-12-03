@@ -18,9 +18,9 @@ const Page = ({children, className, showHeader, showNavBar, title})=>{
 
   }
   return (
-    <div className="">
+    <div className="w-full h-5/6">
       {header}
-      <section>
+      <section className="h-full">
         {children}
       </section>
       {navBar}
