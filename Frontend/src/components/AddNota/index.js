@@ -7,6 +7,7 @@ import TextBox from '../UI/TextBox';
 import { PrimaryButton } from '../UI/Button';
 import ComboBox from '../UI/ComboBox';
 import TextArea from '../UI/TextArea';
+import { addNewNota } from '../../store/reducers/notas/action';
 
 import { useSelector, useDispatch} from 'react-redux';
 
@@ -17,6 +18,8 @@ const AddNota = ()=>{
   const [txtTitulo, settxtTitulo] = useState();
   const [txtNota, settxtNota] = useState();
   const [txtType, setTxtType] = useState('S');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
     const onChangeHandler = (e)=> {
         const {name, value} = e.target;
@@ -36,7 +39,7 @@ const AddNota = ()=>{
         e.preventDefault();
         e.stopPropagation();
         //const curatedSwotMeta = txtMeta.replaceAll(/,/g, '|');
-        //addNewSwot(dispatch, txtDesc, curatedSwotMeta, txtType, navigate, "/list" )
+        addNewNota(dispatch, txtTitulo, txtType, txtNota, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
       }
 
     return(
@@ -64,10 +67,10 @@ const AddNota = ()=>{
                                     value={txtType}
                                     onChange={onChangeHandler}
                                     >
-                                    <option value="S">Fortaleza</option>
-                                    <option value="W">Debilidades</option>
-                                    <option value="O">Oportunidades</option>
-                                    <option value="T">Amenazas</option>
+                                    <option value="Tareas">Tareas</option>
+                                    <option value="Trabajo">Trabajo</option>
+                                    <option value="Noticias">Noticias</option>
+                                    <option value="Importante">Importante</option>
                                     </ComboBox>
                                     <TextArea
                                         placeholder="Escribe tu nota"
@@ -82,7 +85,7 @@ const AddNota = ()=>{
                                             <PrimaryButton onClick={onBtnClick}>Crear Nota</PrimaryButton>
                                           </div>
 
-                                          <input type = "file"/> 
+                                   
                             
                     </div>
                 </div>
