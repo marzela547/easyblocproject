@@ -3,6 +3,7 @@ div.Input {
   justify-content: stretch;
   flex-wrap: wrap;
   width:100%;
+  
 }
 
 div.Input label {
