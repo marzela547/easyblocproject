@@ -16,20 +16,36 @@ class Notes {
             }
         }
         // agregar una nota*************************************************/
-    async addNew(descripcion_not, categoria_cat, titulo_not, imagenes_not, descripcion_not, correo_usu, id) {
-        let newSwot = {
-            descripcion_not,
-            categoria_cat,
-            titulo_not,
-            imagenes_not,
-            descripcion_not,
+    /*async addNew(titulo_Not, categoria_Not, descripcion_Not, imagenes_Not,correo_usu) {
+        let newNota = {
+            titulo_Not,
+            categoria_Not,
+            descripcion_Not,
+            imagenes_Nota:["img1","img2","img3"],
             correo_usu,
-
-            nota_id: new ObjectID(id)
         }
-        let result = await this.swotColl.insertOne(newSwot);
+        let result = await this.notesColl.insertOne(newNota);
+        return result;
+    }*/
+
+
+    async addNew(titulo_Not, categoria_Not, descripcion_Not, correo_usu) {
+        let newNota = {
+            titulo_Not,
+            categoria_Not,
+            descripcion_Not,
+            correo_usu,
+        }
+        let result = await this.notesColl.insertOne(newNota);
         return result;
     }
+
+
+    async getAllNotas(correo_usu){
+        const filter = {correo_usu: correo_usu }
+        let notas = await this.notesColl.find(filter);
+        return notas.toArray();
+      }
 
     //***************************CONSULTAS****************************/
 

@@ -4,24 +4,21 @@ var NotesDao = require('./notes');
 var notes = new NotesDao();
 var CategoriesDao = require('./categories');
 var Categories = new CategoriesDao();
-var CategeroisDao = require('./categories');
-var categories = new CategeroisDao();
+
 
 //agregar nueva nota*********
 router.post('/new', async(req, res, next) => {
     try {
         const {
-            descripcion_not,
-            categoria_cat,
-            titulo_not,
-            imagenes_not,
-            descripcion_not,
+            titulo_Not,
+            categoria_Not,
+            descripcion_Not,
             correo_usu
-
+            
         } = req.body;
-        const swotMetaArray = swotMeta.split('|');
+        
         // validaciones
-        const result = await Swot.addNew(descripcion_not, categoria_cat, titulo_not, imagenes_not, descripcion_not, correo_usu, req.nota._id);
+        const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,correo_usu);
         console.log(result);
         res.status(200).json({ msg: "Agregado Satisfactoriamente" });
     } catch (ex) {
@@ -30,8 +27,20 @@ router.post('/new', async(req, res, next) => {
     }
 }); // /new
 
+router.get('/allNotas', async (req, res, next)=>{
+    try{
+    const {correo_usu} = req.body;
+    
+      const allNotas = await notes.getAllNotas(correo_usu);
+      return res.status(200).json(allNotas);
+    }catch(ex){
+      console.log(ex);
+      return res.status(500).json({msg:"Error al procesar petición"});
+    }
+  });
+
 //********consultar notas por categoria */
-router.get('/bycategoria/:categoria', async(req, res, next) => {
+/*router.get('/bycategoria/:categoria', async(req, res, next) => {
             try {
                 const { categoria } = req.params;
 

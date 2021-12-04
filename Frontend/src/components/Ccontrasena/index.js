@@ -1,0 +1,88 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { publicAxios } from '../../store/utils/Axios';
+
+import Page from '../Page';
+import TextBox from '../UI/TextBox';
+import Password from '../UI/Password';
+import Content from '../UI/Content';
+import { PrimaryButton } from '../UI/Button';
+
+
+
+
+import { useSelector, useDispatch} from 'react-redux';
+
+const getSecurity = ({security})=>security;
+const Ccontrasen = ()=>{
+
+  const [txtCorreo, setTxtCorreo] = useState("");
+  const [txtPassword, setTxtPassword] = useState("");
+
+  const security = useSelector(getSecurity);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const onBtnClick =  (e)=> {
+    e.preventDefault();
+    e.stopPropagation();
+    dispatch(
+      {
+        type:"SEC_LOGIN_FETCH",
+        payload: null,
+      }
+    );
+    publicAxios.post(
+      '/api/sec/login',
+      {
+        email: txtCorreo,
+        pswd: txtPassword,
+      }
+    )
+    .then(
+      ({data}) => {
+        console.log(data)
+        dispatch(
+          {
+            type: "SEC_LOGIN_SUCCESS",
+            payload: data,
+          }
+        );
+        navigate('/dashboard',{replace:true});
+      }
+    )
+    .catch(
+      (err)=>{
+        console.log(err);
+        dispatch(
+          {
+            type: "SEC_LOGIN_ERROR",
+            payload: err,
+          }
+        );
+      }
+    );
+
+
+  };
+  const onChangeHandler = (e)=>{
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.target.name === "txtCorreo") {
+      setTxtCorreo(e.target.value);
+    } else {
+      setTxtPassword(e.target.value);
+    }
+  }
+  const { hasErrors } = security;
+
+  return (
+    <Page showHeader={true} title="Iniciar Sesión" showNavBar>
+      <Content>
+
+
+      </Content>
+    </Page>
+  );
+}
+
+export default Ccontrasen;
