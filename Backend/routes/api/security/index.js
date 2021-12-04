@@ -1,7 +1,6 @@
 const express = require("express");
 let router = express.Router();
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
 let SecModelClass = require('./sec.model.js');
 let SecModel = new SecModelClass();
 const mailSender = require('../../../utils/mailer');
@@ -59,6 +58,49 @@ passport.use(new KakaoStrategy({
 ))
 */
 //--------------------------------------------------------------------
+router.post('/comparar', async (req, res, next) => {
+  try {
+    console="llego"
+    const {correo,acontrasena} = req.body;
+    let userLogged = await SecModel.getByEmail(correo);
+    const isPswdOk = await SecModel.comparePassword(acontrasena, userLogged.contrasena_usu);
+    if (isPswdOk)
+    {
+      res.status(200).json({"msg":"correct"});
+    }else{
+      res.status(200).json({"msg":"error"});
+    }
+  } catch (ex) {
+    res.status(500).json({ "msg": "Error" });
+  }
+});
+
+router.post('/ccontrasena', async (req, res, next) => {
+  try {
+    
+    const {correo,ncontrasena} = req.body;
+    let usu = await SecModel.cambiarContra(correo, ncontrasena);
+    if (usu)
+    {
+      res.status(200).json({"msg":1});
+    }else{
+      res.status(200).json({"msg":0});
+    }
+  } catch (e) {
+    res.status(500).json({ "msg": "Error al editar la contraseña" });
+  }
+});
+router.get('/', async (req, res, next) => {
+  try {
+
+      res.status(200).json({"msg":"hola"});
+  } catch (e) {
+    res.status(500).json({ "msg": "Error al editar la contraseña" });
+  }
+});
+
+
+
 router.post('/login', async (req, res, next)=>{
   try {
     const {email, pswd} = req.body;
@@ -108,9 +150,9 @@ router.post('/signin', async (req, res, next) => {
   }
 });
 
-router.get('/kakao/getinfo',passport.authenticate('kakao', { failureRedirect: '/' }), (req, res)=>{
+/*router.get('/kakao/getinfo',passport.authenticate('kakao', { failureRedirect: '/' }), (req, res)=>{
   res.status(200).json({"msg":"¡Eureka! Funciona, Kakao"});
-});
+});/*
 
 router.get('/auth/kakao',
   passport.authenticate('kakao'));
@@ -124,7 +166,7 @@ router.get('/oauth/kakao/callback',
 */
 //----------------------GITHUB
 
-router.get('/github/getinfo', (req, res)=>{
+/*router.get('/github/getinfo', (req, res)=>{
   res.status(200).json({"msg":"¡Eureka! Funciona, GitHub"});
 });
 router.get('/auth/github',
@@ -135,7 +177,7 @@ router.get('/auth/github/callback',
   function(req, res) {
     // Successful authentication, redirect home.
     res.status(401);
-  });
+  });*/
 //-------------------------------
 let cache = '';
 router.post('/recovery', async (req, res, next) => {
@@ -147,6 +189,9 @@ router.post('/recovery', async (req, res, next) => {
     res.status(500).json({ "msg": "Error al editar la contraseña" });
   }
 });
+
+
+
 router.post('/login', async(req, res, next)=>{});
 //router.post('/signin', async(req, res, next)=>{});
 
