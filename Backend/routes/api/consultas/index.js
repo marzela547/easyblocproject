@@ -36,19 +36,18 @@ router.delete('/delete/:id', async (req, res, next)=>{
 });
 /********************************************************** */
 //agregar nueva nota*********
-router.post('/new', async(req, res, next) => {
+/*router.post('/new', async(req, res, next) => {
   try {
     const {
       descripcion_not,
       categoria_cat,
       titulo_not,
       imagenes_not,
-      descripcion_not,
       correo_usu
     } = req.body;
     const swotMetaArray = swotMeta.split('|');
     // validaciones
-    const result = await Swot.addNew(descripcion_not, categoria_cat, titulo_not, imagenes_not, descripcion_not, correo_usu, req.nota._id);
+    const result = await notes.addNew(descripcion_not, categoria_cat, titulo_not, imagenes_not, correo_usu, req.nota._id);
     console.log(result);
     res.status(200).json({ msg: "Agregado Satisfactoriamente" });
   } catch (ex) {
