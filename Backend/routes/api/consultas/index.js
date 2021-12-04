@@ -23,10 +23,10 @@ router.get('/byid/:id', async (req, res, next)=>{
 
 //**********Eliminar 1 dato**********************************
 
-router.delete('/delete/:id', async (req, res, next)=>{
+router.delete('/delete/:titulo/:correo', async (req, res, next)=>{
   try {
-    const {id} = req.params;
-    const result = await categories.deleteById(id);
+    const {titulo,correo} = req.params;
+    const result = await categories.deleteById(titulo,correo);
     console.log(result);
     return res.status(200).json({"msg":"Eliminado OK"});
   } catch (ex) {

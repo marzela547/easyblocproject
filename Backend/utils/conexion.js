@@ -1,10 +1,10 @@
 var mongoClient = require('mongodb').MongoClient;
 var dotenv = require('dotenv');
 dotenv.config(); // se corren los archivos .env primeramente
-var { MONGO_USER, MONGO_PSW, MONGO_HOST, MONGO_DB } = process.env;
+var { MONGO_USER, MONGO_PSWD, MONGO_HOST, MONGO_DB } = process.env;
 var _db= null 
 
-var connectionString =  `mongodb+srv://${MONGO_USER}:${MONGO_PSW}@${MONGO_HOST}/${MONGO_DB}?retryWrites=true&w=majority`;
+var connectionString =  `mongodb+srv://${MONGO_USER}:${MONGO_PSWD}@${MONGO_HOST}/${MONGO_DB}?retryWrites=true&w=majority`;
 
 var client = new mongoClient(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
 

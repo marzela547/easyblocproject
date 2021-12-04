@@ -19,11 +19,11 @@ class Categories{
     
 //CONSULTA PARA ELIMINAR***************************************
 
-    async deleteById(id) {
-    let filter = { "_id": new ObjectID(id) };
+    async deleteById(titulo,correo) {
+    let filter = { "titulo": titulo,"correo": correo};
     let result = await this.categoriesColl.deleteOne(filter);
     return result;
-  }
+}
 /**************************************************************/
 
 
