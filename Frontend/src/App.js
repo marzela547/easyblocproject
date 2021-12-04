@@ -5,7 +5,9 @@ import './App.css';
 import RequireAuth from './components/UI/RequireAuth';
 import Login from "./components/Login";
 import Ccontasena from "./components/Ccontrasena";
+import Nota from "./components/Notas";
 const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
+
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/ccontrasena" element={<Ccontasena />} />
+            <Route path="/Nota" element={<Nota />} />
           </Routes>
         </div>
       </BrowserRouter>
