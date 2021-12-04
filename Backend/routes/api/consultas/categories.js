@@ -26,7 +26,18 @@ class Categories{
   }
 /**************************************************************/
 
+/***********************Actualizar Categoria***** */
+async updCategoria(Descripcion_Cat, id) {
+    // UPDATE SWOT set swotMeta = 'Nuevo Valor' where _id = 'aId';
+    let filter = { _id: new ObjectID(id) };
+    let result = await this.categoriesColl.updateOne(filter, {
+        $set: { Descripcion_Cat: Descripcion_Cat },
+    });
+    return result;
+}
 
 }
+
+
 
 module.exports = Categories;

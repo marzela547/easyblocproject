@@ -27,8 +27,28 @@ class Notes{
   }
 //***********************************************************
 
-  
- 
+// agregar una nota*************************************************/
+async addNew(descripcion_not, categoria_cat, titulo_not, imagenes_not, descripcion_not, correo_usu, id) {
+  let newSwot = {
+      descripcion_not,
+      categoria_cat,
+      titulo_not,
+      imagenes_not,
+      descripcion_not,
+      correo_usu,
+
+      nota_id: new ObjectID(id)
+  }
+  let result = await this.swotColl.insertOne(newSwot);
+  return result;
+}
+  //consultar las notas por categoria******************
+  async getByType(categotia, _id) {
+    // SELECT * from nota where categoria = ?;
+    const filter = { "categoria": categoria, "_id": new ObjectID(_id) };
+    let cursor = await this.swotColl.find(filter);
+    return cursor.toArray();
+}
 }
 
 module.exports = Notes;
