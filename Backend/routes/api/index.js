@@ -31,11 +31,11 @@ router.get('/', (req, res, next) => {
 
 router.use('/security', secRouter);
 
-router.use('/notes', jwtMiddleware, notesRouter);
+//router.use('/notes', jwtMiddleware, notesRouter);
 router.use('/categories', jwtMiddleware, notesRouter);
-router.use('/notes', jwtMiddleware, notesRouter);
+//router.use('/notes', jwtMiddleware, notesRouter);
 router.use('/categories', jwtMiddleware, notesRouter);
-
+router.use('/notes',notesRouter);
 /*
 router.get("/", (req, res, next) => {
   return res.status(200).json({
