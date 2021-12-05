@@ -27,11 +27,11 @@ class Categories{
 /**************************************************************/
 
 /***********************Actualizar Categoria***** */
-async updCategoria(Descripcion_Cat, id) {
+async updCategoria(Descripcion_Cat, correo_use, actualizacion_cat) {
     // UPDATE SWOT set swotMeta = 'Nuevo Valor' where _id = 'aId';
-    let filter = { _id: new ObjectID(id) };
+    let filter = { correo_use: new ObjectID(correo_use), descripcion_cat: new ObjectID(Descripcion_Cat)};
     let result = await this.categoriesColl.updateOne(filter, {
-        $set: { Descripcion_Cat: Descripcion_Cat },
+        $set: { descripcion_cat: actualizacion_cat},
     });
     return result;
 }

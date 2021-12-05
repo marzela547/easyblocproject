@@ -56,11 +56,11 @@ router.delete('/delete/:id', async (req, res, next)=>{
     }}); // /new
 
      /********Consulta MODIFICAR UNA CATEGORIA***********************************************/
-     router.put('/updCategoria/:id', async(req, res, next) => {
+router.put('/updCategorie', async(req, res, next) => {
       try {
-          const { id } = req.params;
-          const { Descripcion_Cat } = req.body;
-          const result = await categories.updCategoria(id, Descripcion_Cat);
+          //const { id } = req.params;
+          const { Descripcion_Cat, correo_usu, actualizacion_cat } = req.body;
+          const result = await categories.updCategoria(Descripcion_Cat, correo_usu, actualizacion_cat);
           console.log(result);
           res.status(200).json({ msg: 'Modificado OK' });
       } catch (ex) {
@@ -81,7 +81,7 @@ router.get('/bycategoria/:categoria', async(req, res, next) => {
             }});
 
 /********Consultas Kevin***********************************************/
-router.put('/updCategoria/:id', async(req, res, next) => {
+/*router.put('/updCategoria/:id', async(req, res, next) => {
   try {
       const { id } = req.params;
       const { Descripcion_Cat } = req.body;
@@ -92,7 +92,7 @@ router.put('/updCategoria/:id', async(req, res, next) => {
       console.log(ex);
       return res.status(500).json({ msg: 'Error al procesar petición' });
   }
-});
+});*/
 /******************************************************************** */
 router.post('/comparar', async (req, res, next) => {
   try {

@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Ccontasena from "./components/Ccontrasena";
 import NCategoria from "./components/NuevaCategoria";
 import NUsuario from "./components/AgregarUsuario";
+import Perfil from "./components/Perfil";
 const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/ccontrasena" element={<Ccontasena />} />
             <Route path="/add_categories" element={<NCategoria/>}/>
             <Route path="/add_user" element={<NUsuario/>}/>
+            <Route path="/profile" element={<Perfil/>}/>
           </Routes>
         </div>
       </BrowserRouter>

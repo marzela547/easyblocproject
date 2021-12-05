@@ -4,6 +4,7 @@ import { publicAxios } from '../../store/utils/Axios';
 import Page from '../Page';
 import Password from '../UI/Password';
 import { useSelector, useDispatch} from 'react-redux';
+import {validarCaracteresContrasena, validarIgualdadContrasena} from '../../store/utils/Validaciones';
 
 const getSecurity = ({security})=>security;
 const Ccontrasen = ()=>{
@@ -53,17 +54,11 @@ const Ccontrasen = ()=>{
         }
       );
     }
-    if(txtPasswordn!=txtPasswordc)
-    {
-      err=true;
-      document.getElementById('mensajen').innerHTML = 'Error, No coincide con confirmar contraseña';
-    }
-    expre =/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-    if(!expre.test(txtPasswordn))
-    {
-      err=true;
-      document.getElementById('mensajen').innerHTML = 'Error,Minimo [1 letra, 1 numero,1 especial, 8 caracteres]';
-    }
+    if(validarIgualdadContrasena(txtPasswordc, txtPasswordn, document.getElementById('mensajen')))
+                err=true;
+            else
+                if(validarCaracteresContrasena(txtPasswordn, document.getElementById('mensajen')))
+                err = true;
     expre=/^\s*$/;
     if(expre.test(txtPasswordn))
     {
