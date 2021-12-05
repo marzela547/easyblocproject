@@ -23,4 +23,5 @@ div.Input input{
   outline:none;
   width:100%;
   margin-top:0.5em;
+  height: 45px;
 }

@@ -35,7 +35,22 @@ async updCategoria(Descripcion_Cat, id) {
     });
     return result;
 }
-
+/******Añadir categoria*********** */
+async createNewCategory(descripcion_cat,correo_use)
+  {
+    try{
+      let category ={
+        descripcion_cat:descripcion_cat,
+        correo_use:correo_use
+      }
+      console.log()
+      let result = await this.categoriesColl.insertOne(category);
+      return result;
+    }catch(ex){
+      throw(ex);
+    }
+  }
+  
 }
 
 

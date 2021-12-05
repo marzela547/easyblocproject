@@ -94,4 +94,68 @@ router.put('/updCategoria/:id', async(req, res, next) => {
   }
 });
 /******************************************************************** */
+router.post('/comparar', async (req, res, next) => {
+  try {
+    console="llego"
+    const {correo,acontrasena} = req.body;
+    let userLogged = await SecModel.getByEmail(correo);
+    const isPswdOk = await SecModel.comparePassword(acontrasena, userLogged.contrasena_usu);
+    if (isPswdOk)
+    {
+      res.status(200).json({"msg":"correct"});
+    }else{
+      res.status(200).json({"msg":"error"});
+    }
+  } catch (ex) {
+    res.status(500).json({ "msg": "Error" });
+  }
+});
+
+router.post('/ccontrasena', async (req, res, next) => {
+  try {
+    
+    const {correo,ncontrasena} = req.body;
+    let usu = await SecModel.cambiarContra(correo, ncontrasena);
+    if (usu)
+    {
+      res.status(200).json({"msg":1});
+    }else{
+      res.status(200).json({"msg":0});
+    }
+  } catch (e) {
+    res.status(500).json({ "msg": "Error al editar la contraseña" });
+  }
+});
+/**************Nueva Categoria******************** */
+router.post('/newcategory', async (req, res, next) => {
+  try {
+    console.log("entre");
+    const {descripcion, correo} = req.body;
+    let cateAdded = await categories.createNewCategory(descripcion, correo);
+    console.log(cateAdded);
+    res.status(200).json({"msg":"Categoria Creado Satisfactoriamente"});
+    console.log("AQUI VOY")
+  } catch (ex) {
+    res.status(500).json({ "msg": "Error" });
+    console.log("ERRRRRRROOOOOOORRRR")
+  }
+});
+
+router.put('/updatenote', async (req, res, next) => {
+  try {
+    const {id,titulo,descripcion,categoria,usuario} = req.body;
+    let imagenes = ["img1","img2","img3"]
+    let noteupdate = await notes.changeNote(id,titulo,descripcion, imagenes,categoria,usuario);
+    delete noteupdate;
+    res.status(200).json({"msg":"Nota Editada Satisfactoriamente"});
+  } catch (ex) {
+    res.status(500).json({ "msg": "Error" });
+  }
+});
+
+/********Traer todas las notas */
+router.get('/getAllNotes', async(req, res, next) =>{
+  
+});
+
 module.exports = router;

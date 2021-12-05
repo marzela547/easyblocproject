@@ -49,6 +49,30 @@ class Notes{
     let cursor = await this.swotColl.find(filter);
     return cursor.toArray();
 }*/
+/*********Modificar una nota*************** */
+async changeNote(id,titulo,descripcion,imagenes,categoria,usuario) {
+  try {
+    let result = await this.noteColl.updateOne({titulo_not:"Compras"},{$set:{
+                                                            titulo_not:titulo,
+                                                            descripcion_not:descripcion,
+                                                            imagenes_not:imagenes,
+                                                            categoria_cat:categoria,
+                                                            usuario_usu:usuario
+                                                          }});
+    console.log(result)
+    return result;
+  } catch(ex) {
+    console.log(ex);
+    throw(ex);
+  }
+}
+
+async getAllNotes(){
+
+  let buscarNotas = await this.notesColl.find();
+  return buscarNotas;
+}
+
 }
 
 module.exports = Notes;

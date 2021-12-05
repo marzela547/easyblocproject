@@ -190,7 +190,11 @@ router.post('/recovery', async (req, res, next) => {
   }
 });
 
-
+router.post('/profile', async(req, res, next)=>{
+  const {correo} = req.body;
+  let usu = await SecModel.getByEmail(correo);
+  res.status(200).json(usu);
+});
 
 router.post('/login', async(req, res, next)=>{});
 //router.post('/signin', async(req, res, next)=>{});
