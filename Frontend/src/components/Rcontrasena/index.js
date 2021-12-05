@@ -4,9 +4,9 @@ import { publicAxios } from '../../store/utils/Axios';
 import Page from '../Page';
 import Password from '../UI/Password';
 import { useSelector, useDispatch} from 'react-redux';
-
+import TextBox from '../UI/TextBox';
 const getSecurity = ({security})=>security;
-const Ccontrasen = ()=>{
+const Rcontrasen = ()=>{
 
   //const [txtCorreo, setTxtCorreo] = useState("");
   const [txtPassworda, setTxtPassworda] = useState("");
@@ -24,35 +24,7 @@ const Ccontrasen = ()=>{
     err=false;
     document.getElementById('mensajea').innerHTML = '';
     document.getElementById('mensajen').innerHTML = '';
-    expre=/^\s*$/;
-    if(expre.test(txtPassworda))
-    {
-      console.log(expre.test(txtPassworda)+" entro");
-      err=true;
-      document.getElementById('mensajea').innerHTML = 'Error,Campo obligatorio';
-    }else{
-      publicAxios.post(
-        'api/sec/comparar',
-        {
-          correo: txtCorreo,
-          acontrasena: txtPassworda,
-        }
-      )
-      .then(
-        ({data}) => {
-          if (data.msg=="error"){
-            err=true;
-            document.getElementById('mensajea').innerHTML = 'Error,Contraseña incorrecta';
-          }
-        }
-      )
-      .catch(
-        (err)=>{
-          console.log(err);
-          err=true;
-        }
-      );
-    }
+
     if(txtPasswordn!=txtPasswordc)
     {
       err=true;
@@ -64,6 +36,7 @@ const Ccontrasen = ()=>{
       err=true;
       document.getElementById('mensajen').innerHTML = 'Error,Minimo [1 letra, 1 numero,1 especial, 8 caracteres]';
     }
+
     expre=/^\s*$/;
     if(expre.test(txtPasswordn))
     {
@@ -92,17 +65,16 @@ const Ccontrasen = ()=>{
           console.log(err);
         }
       );
-      navigate('/',{replace:true});
+ navigate('/',{replace:true});
+
     }else{
       console.log("errores");
     }
   };
+
   const onChangeHandler = (e)=>{
     e.preventDefault();
     e.stopPropagation();
-    if (e.target.name === "acontrasena") {
-      setTxtPassworda(e.target.value);
-    }
     if (e.target.name === "ncontrasena") {
       setTxtPasswordn(e.target.value);
     }
@@ -118,14 +90,14 @@ const Ccontrasen = ()=>{
         <h1 className="mt-6 text-2xl font-bold">Cambio de Contraseña</h1>
         <hr className=" w-11/12 m-auto mb-4 bg-gray-500 "/>
         <div  className="w-11/12 mx-auto">
-        <Password
-            id="cactual"
-            label="Contraseña Actual"
-            value={txtPassworda}
-            placeholder="Contraseña Actual"
-            onChange={onChangeHandler}
-            name="acontrasena"
-          />
+        <TextBox
+          label="Correo Electrónico"
+          value={txtCorreo}
+          placeholder="Correo Electrónico Valido"
+          onChange={onChangeHandler}
+          name="txtCorreo"
+          readonly
+         />
           <label id="mensajea" className=" text-red-600 text-sm w-4 h-4 mb-4" ></label>
           <Password
             id="cnueva"
@@ -151,4 +123,4 @@ const Ccontrasen = ()=>{
     </Page>
   );
 }
-export default Ccontrasen;
+export default Rcontrasen;
