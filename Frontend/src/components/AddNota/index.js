@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { publicAxios } from '../../store/utils/Axios';
-
+import { useEffect } from 'react';
 import Page from '../Page';
 import TextBox from '../UI/TextBox';
 import { PrimaryButton } from '../UI/Button';
@@ -10,11 +10,13 @@ import TextArea from '../UI/TextArea';
 import { addNewNota } from '../../store/reducers/notas/action';
 
 import { useSelector, useDispatch} from 'react-redux';
+import { cargarCatCmb } from '../../store/reducers/notas/action';
 
 
 const getSecurity = ({security})=>security;
 const AddNota = ()=>{
-
+  const nota = useSelector(({nota})=>nota);
+  const{hasMore,items} = nota;
   const [txtTitulo, settxtTitulo] = useState("");
   const [txtNota, settxtNota] = useState("");
   const [txtType, setTxtType] = useState('S');
@@ -22,6 +24,21 @@ const AddNota = ()=>{
   const navigate = useNavigate();
   let err;
   let expre;
+  let correo = 'marcelazelaya547@yahoo.com';
+
+  const cargar = () => {
+    cargarCatCmb(dispatch,correo)
+  }
+  useEffect(()=>{ 
+    if (hasMore) {
+      cargar()
+    }
+
+    }, []);
+
+    const option = items.map((o,i)=>{
+      return (<option key={i} value={o.Descripcion_Cat}>{o.Descripcion_Cat}</option>);
+    });
 
   const onBtnClick = (e)=> {
     e.preventDefault();
@@ -96,10 +113,7 @@ const AddNota = ()=>{
                                     value={txtType}
                                     onChange={onChangeHandler}
                                     >
-                                    <option value="Tareas">Tareas</option>
-                                    <option value="Trabajo">Trabajo</option>
-                                    <option value="Noticias">Noticias</option>
-                                    <option value="Importante">Importante</option>
+                                    {option}
                                     </ComboBox>
                                     <TextArea
                                         id="nota"

@@ -10,11 +10,15 @@ import { PrimaryButton } from '../UI/Button';
 import ComboBox from '../UI/ComboBox';
 import TextArea from '../UI/TextArea';
 import { UpdNot } from '../../store/reducers/notas/action';
+import { cargarCatCmb } from '../../store/reducers/notas/action';
 import { useSelector, useDispatch} from 'react-redux';
+let combo = [];
 
 
 const getSecurity = ({security})=>security;
 const UpdNota = ()=>{
+  const nota = useSelector(({nota})=>nota);
+  const{hasMore,items,prueba} = nota;
     const [txtTitulo, settxtTitulo] = useState("");
     const [txtNota, settxtNota] = useState("");
     const [txtType, setTxtType] = useState('S');
@@ -24,11 +28,21 @@ const UpdNota = ()=>{
     let expre;
     let tit;
     let not;
-    
     let id = '61abb98c378dcfeb19278409';
+    let correo = 'marcelazelaya547@yahoo.com';
+ 
 
-
+    
+    
+    const cargar = () => {
+      cargarCatCmb(dispatch,correo)
+    }
     useEffect(()=>{
+  
+      if (hasMore) {
+        cargar()
+      }
+       
         dispatch(
             {
               type:"NOTAS_CARGADA",
@@ -58,11 +72,18 @@ const UpdNota = ()=>{
             )
           });
 
+
+//************************************************************************************************ */
       
 
 
 
     }, []);
+
+
+    const option = items.map((o,i)=>{
+      return (<option key={i} value={o.Descripcion_Cat}>{o.Descripcion_Cat}</option>);
+    });
       
 
   const onBtnClick = (e)=> {
@@ -89,6 +110,8 @@ const UpdNota = ()=>{
     }
     if(err==false){
       UpdNot(dispatch,id, txtTitulo,  txtNota, txtType, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
+  
+     
     }
 
     
@@ -142,11 +165,9 @@ const UpdNota = ()=>{
                                     value={txtType}
                                     onChange={onChangeHandler}
                                     >
-                                    <option value="Tareas">Tareas</option>
-                                    <option value="Trabajo">Trabajo</option>
-                                    <option value="Noticias">Noticias</option>
-                                    <option value="Matematicas">Matematicas</option>
-                                    <option value="Importante">Importante</option>
+                                      {option}
+                                     
+        
                                     </ComboBox>
                                     <TextArea
                                         id="nota"

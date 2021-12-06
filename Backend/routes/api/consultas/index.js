@@ -87,11 +87,11 @@ router.post('/addCat', async(req, res, next) => {
 }); // /new
 
 
-router.get('/allCat', async (req, res, next)=>{
+router.get('/allCate/:correo_usu', async (req, res, next)=>{
     try{
-    const {correo_usu} = req.body;
+    const {correo_usu} = req.params;
     
-      const allCat = await Categories.getAllCat(correo_usu);
+      const allCat = await Categories.getAllCate(correo_usu);
       return res.status(200).json(allCat);
     }catch(ex){
       console.log(ex);

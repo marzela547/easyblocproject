@@ -1,28 +1,36 @@
 const initialState = {
-    
-    titulo:"", 
-    nota:""
+    hasMore:true,
+    items:[],
+    hasErrors:false,
+    errors:[],
+    prueba:'4'
     
   }
   const notaReducer = (state=initialState, action)=>{
     const {type, payload} = action;
     switch( type ){
-        case "NOTA_START_FETCH":
+        case "NOTAS_CARGADA":
             return {
                 ...state,
-                fetching:true,
                 hasErrors:false,
-                errors:[]
+                errors:[],
+                prueba:'1'
             }
 
-            case "NOTA_FETCH_SUCCESS":
+            case "NOTAS_CARGADA_SUCCESS":
                 return {
                     ...state,
-                    titulo: payload.titulo_Not,
-                    Desnota:payload.descripcion_Not
+                    prueba:'2',
+                    hasErrors:false,
+                    error:[],
+                    items:[...state.items, ...payload.documents],
+                    hasMore: true
                   }
+              case "NOTA_LIST_CLEAR":
+                return {...initialState};
                   default:
                     return state;
     }
   }
   export default notaReducer;
+  

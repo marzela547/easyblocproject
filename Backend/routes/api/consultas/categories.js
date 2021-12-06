@@ -46,11 +46,42 @@ class Categories {
             return result;
         }
 
-        async getAllCat(correo_usu){
+        async getAllCate(correo_usu){/*
             const filter = {correo_usu: correo_usu }
             let categorias = await this.categoriesColl.find(filter);
-            return categorias.toArray();
-          }
+
+            let documents = await categorias.toArray();
+            return {
+                categorias
+            };
+        
+       
+            const filter = {correo_usu: correo_usu }
+            let cursor = await this.categoriesColl.find(filter);
+            let documents = await cursor.toArray();
+            return { documents}
+       
+         const filter = { swotDesc: RegExp(textToSearch, 'g'), "user_id": new ObjectID(userId)};
+    //console.log(filter);
+    /*const options = {
+      projection: {},
+      limit: itemsPerPage,
+      skip: (itemsPerPage * (page - 1))
+    };*/
+    //let cursor = await this.swotColl.find(filter, options);
+        const filter = {correo_usu: correo_usu }
+        let cursor =  await this.categoriesColl.find(filter);
+        let documents = await cursor.toArray();
+        return {
+
+        documents,
+         
+        }
+        
+        
+         }
+
+
 }
 
 module.exports = Categories;

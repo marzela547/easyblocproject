@@ -80,4 +80,33 @@ export const cargarData = (dispatch,id)=>{
     )
   });
 }
+/********************************CARGAR CATEGORIAS******************************************* */  
+export const cargarCatCmb = (dispatch,correo_usu)=>{
+  dispatch(
+    {
+      type:"NOTAS_CARGADA",
+      payload:null
+    }
+  )
+
+  privateAxios.get(`/api/notes/allCate/${correo_usu}`)
+  .then(({data})=>{
+    console.log(data);
+    dispatch(
+      {
+        type:"NOTAS_CARGADA_SUCCESS",
+        payload: data
+      }
+    )
+  })
+  .catch((err)=>{
+    console.log(err);
+    dispatch(
+      {
+        type:"NOTAS_CARGADA_ERROR",
+        payload: ["Error al traer Info"]
+      }
+    )
+  });
+}
   
