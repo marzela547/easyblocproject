@@ -27,7 +27,7 @@ const UpdNota = ()=>{
     
     let id = '61abb2039c13a095e889c7a5';
 
-    useEffect(()=>{
+
         
         dispatch(
             {
@@ -39,8 +39,8 @@ const UpdNota = ()=>{
           privateAxios.get(`/api/notes/OneNota/${id}`)
           .then(({data})=>{
            // console.log(data);
-            tit = data.titulo_Not;
-            not = data.descripcion_Not;
+           //txtTitulo = data.titulo_Not;
+           console.log(data.descripcion_Not);
             dispatch(
               {
                 type:"NOTAS_CARGADA_SUCCESS",
@@ -59,8 +59,8 @@ const UpdNota = ()=>{
           });
 
       
-    }, []);
- 
+
+   
 
 
 
