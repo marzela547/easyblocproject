@@ -19,17 +19,17 @@ class Categories{
     
 //CONSULTA PARA ELIMINAR***************************************
 
-    async deleteById(id) {
-    let filter = { "_id": new ObjectID(id) };
+async deleteCategorie(descripcion_cat, correo_use) {
+    let filter = {correo_use: correo_use, descripcion_cat: descripcion_cat};
     let result = await this.categoriesColl.deleteOne(filter);
     return result;
   }
 /**************************************************************/
 
 /***********************Actualizar Categoria***** */
-async updCategoria(Descripcion_Cat, correo_use, actualizacion_cat) {
+async updCategoria(descripcion_cat, correo_use, actualizacion_cat) {
     // UPDATE SWOT set swotMeta = 'Nuevo Valor' where _id = 'aId';
-    let filter = { correo_use: new ObjectID(correo_use), descripcion_cat: new ObjectID(Descripcion_Cat)};
+    let filter = { correo_use: correo_use, descripcion_cat: descripcion_cat};
     let result = await this.categoriesColl.updateOne(filter, {
         $set: { descripcion_cat: actualizacion_cat},
     });

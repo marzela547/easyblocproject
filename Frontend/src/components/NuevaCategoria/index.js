@@ -10,10 +10,11 @@ const NCategoria = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const txtCorreo= "kevin@gmail.com";
-    const categorie = "Invierno";
+    const categorie = "Verano";
     let opc = 2;
     let title;
     let boton;
+    let btnDelete;
     let err = false;
     let expre;
     const [txtCategorie, setTxtCategorie] = useState("");
@@ -56,11 +57,9 @@ const NCategoria = () =>{
                 publicAxios.put(
                   'api/categories/updCategorie',
                   {
-                    Descripcion_Cat: categorie,
-                    correo_usu: txtCorreo,
-                    
-                  },{
-                    actualizacion_cat: txtCategorie
+                      descripcion_cat: categorie,
+                      correo_usu: txtCorreo,
+                      actualizacion_cat: txtCategorie
                   }
                   )
                   .then(
@@ -75,8 +74,31 @@ const NCategoria = () =>{
                       console.log(err);
                   }
                   );
+                  console.log(txtCorreo, categorie, txtCategorie);
               }
         }
+    }
+
+    const onChangeDelete = (e) =>{
+      publicAxios.delete(
+        'api/categories/deleteCategorie',
+        {
+            descripcion_cat: categorie,
+            correo_use: txtCorreo
+        }
+        )
+        .then(
+        ({data}) => {
+          console.log(data)
+          window.alert("Categoría eliminada exitosamente");
+          //  navigate('/dashboard',{replace:true});
+        }
+        )
+        .catch(
+        (err)=>{
+            console.log(err);
+        }
+        );
     }
 
     const onChangeHandler = (e)=>{
@@ -88,9 +110,11 @@ const NCategoria = () =>{
     if(opc ===1){
       title = "Nueva Categoría";
       boton = "Crear";
+      
     }else{
       title = "Modificar Categoría";
       boton = "Guardar";
+      btnDelete = <button onClick={onChangeDelete} type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3" >Eliminar</button>
     }
 
     return(
@@ -108,6 +132,7 @@ const NCategoria = () =>{
                 />
                 <label id="mensajen" className="text-red-600 text-sm w-full h-4 mb-4 text-center"></label>
                 <button onClick={onChangeCate} type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">{boton}</button>
+                {btnDelete}
             </div>
         </Page>
     );

@@ -23,10 +23,10 @@ router.get('/byid/:id', async (req, res, next)=>{
 
 //**********Eliminar 1 Categoria**********************************
 
-router.delete('/delete/:id', async (req, res, next)=>{
+router.delete('/deleteCategorie', async (req, res, next)=>{
   try {
-    const {id} = req.params;
-    const result = await categories.deleteById(id);
+    const {descripcion_cat, correo_use} = req.body;
+    const result = await categories.deleteCategorie(descripcion_cat, correo_use);
     console.log(result);
     return res.status(200).json({"msg":"Eliminado OK"});
   } catch (ex) {
@@ -59,8 +59,8 @@ router.delete('/delete/:id', async (req, res, next)=>{
 router.put('/updCategorie', async(req, res, next) => {
       try {
           //const { id } = req.params;
-          const { Descripcion_Cat, correo_usu, actualizacion_cat } = req.body;
-          const result = await categories.updCategoria(Descripcion_Cat, correo_usu, actualizacion_cat);
+          const { descripcion_cat, correo_usu, actualizacion_cat } = req.body;
+          const result = await categories.updCategoria(descripcion_cat, correo_usu, actualizacion_cat);
           console.log(result);
           res.status(200).json({ msg: 'Modificado OK' });
       } catch (ex) {
