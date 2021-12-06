@@ -15,15 +15,46 @@ import { useSelector, useDispatch} from 'react-redux';
 const getSecurity = ({security})=>security;
 const AddNota = ()=>{
 
-  const [txtTitulo, settxtTitulo] = useState();
-  const [txtNota, settxtNota] = useState();
+  const [txtTitulo, settxtTitulo] = useState("");
+  const [txtNota, settxtNota] = useState("");
   const [txtType, setTxtType] = useState('S');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let err;
+  let expre;
+
+  const onBtnClick = (e)=> {
+    e.preventDefault();
+    e.stopPropagation();
+
+    document.getElementById('mensajet').innerHTML = '';
+    document.getElementById('mensajea').innerHTML = '';
+    expre=/^\s*$/;
+    
+    if(expre.test(txtNota)){
+      err=true;
+      document.getElementById('mensajet').innerHTML = 'Debe de escribir un titulo a la nota';
+
+    }else{
+      err=false;
+    }
+    if(expre.test(txtTitulo)){
+      err=true;
+      document.getElementById('mensajea').innerHTML = 'Debe escribir en la nota';
+
+    }else{
+      err=false;
+    }
+    if(err==false){
+      addNewNota(dispatch, txtTitulo, txtType, txtNota, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
+    }
+
+    
+  }
 
     const onChangeHandler = (e)=> {
-        const {name, value} = e.target;
-        switch(name){
+       const {name, value} = e.target;
+       switch(name){
           case "txtTitulo":
             settxtTitulo(value);
             break;
@@ -33,15 +64,10 @@ const AddNota = ()=>{
          case "txtNota":
             settxtNota(value);
             break;
-        }
+        
       }
-      const onBtnClick = (e)=> {
-        e.preventDefault();
-        e.stopPropagation();
-        //const curatedSwotMeta = txtMeta.replaceAll(/,/g, '|');
-        addNewNota(dispatch, txtTitulo, txtType, txtNota, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
-      }
-
+    
+    }
     return(
 
         <Page showHeader={true} title="Nueva " showNavBar>
@@ -52,13 +78,16 @@ const AddNota = ()=>{
                      
                                 <div className="m-auto w-11/12">
                                     <TextBox
+                                        id="titulo"
                                         label="txtTitulo"
                                         placeholder="Título"
-                                        value= {txtTitulo}
+                                        value={txtTitulo}
                                         name="txtTitulo"
-                                        onChange={onChangeHandler}
+                                        onChange={onChangeHandler} 
+
                                         >
                                         </TextBox>
+                                        <label id="mensajea" className=" text-red-600 text-sm w-4 h-4 mb-4" ></label>
                                 </div>
                                
                                     <ComboBox
@@ -73,12 +102,14 @@ const AddNota = ()=>{
                                     <option value="Importante">Importante</option>
                                     </ComboBox>
                                     <TextArea
+                                        id="nota"
                                         placeholder="Escribe tu nota"
                                         value= {txtNota}
                                         name="txtNota"
                                         onChange={onChangeHandler}
                                         >
                                     </TextArea>
+                                    <label id="mensajet" className=" text-red-600 text-sm w-4 h-4 mb-4" ></label>
                                   
                                    
                                         <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-black text-white">
