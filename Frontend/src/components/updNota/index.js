@@ -1,27 +1,109 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { publicAxios } from '../../store/utils/Axios';
+import { privateAxios } from '../../store/utils/Axios';
+import { useEffect } from 'react';
+
 
 import Page from '../Page';
 import TextBox from '../UI/TextBox';
 import { PrimaryButton } from '../UI/Button';
 import ComboBox from '../UI/ComboBox';
 import TextArea from '../UI/TextArea';
-import { addNewNota } from '../../store/reducers/notas/action';
-
+import { cargarData } from '../../store/reducers/notas/action';
 import { useSelector, useDispatch} from 'react-redux';
 
 
 const getSecurity = ({security})=>security;
 const UpdNota = ()=>{
+    const [txtTitulo, settxtTitulo] = useState("");
+    const [txtNota, settxtNota] = useState("");
+    const [txtType, setTxtType] = useState('S');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    let err;
+    let expre;
+    let tit;
+    let not;
+    
+    let id = '61abb2039c13a095e889c7a5';
 
-  const [txtTitulo, settxtTitulo] = useState("");
-  const [txtNota, settxtNota] = useState("");
-  const [txtType, setTxtType] = useState('S');
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  let err;
-  let expre;
+    useEffect(()=>{
+        
+        dispatch(
+            {
+              type:"NOTAS_CARGADA",
+              payload:null
+            }
+          )
+
+          privateAxios.get(`/api/notes/OneNota/${id}`)
+          .then(({data})=>{
+           // console.log(data);
+            tit = data.titulo_Not;
+            not = data.descripcion_Not;
+            dispatch(
+              {
+                type:"NOTAS_CARGADA_SUCCESS",
+                payload: data
+              }
+            )
+          })
+          .catch((err)=>{
+            console.log(err);
+            dispatch(
+              {
+                type:"NOTAS_CARGADA_ERROR",
+                payload: ["Error al traer Info"]
+              }
+            )
+          });
+
+      
+    }, []);
+ 
+
+
+
+
+
+    //console.log(cargarData(dispatch, '61abb2039c13a095e889c7a5'))
+
+   /* const nota = useSelector(({nota})=>nota);
+    const {titulo,Desnota} = nota;
+   
+    const carga = () => {
+     //  cargarData(dispatch, '61abb2039c13a095e889c7a5')
+        //console.log(cargarData(dispatch, '61abb2039c13a095e889c7a5')+" kevin");
+      }
+      useEffect(()=>{
+        
+          carga();
+        
+      }, []);
+      
+    //console.log(cargarData(dispatch, '61abb2039c13a095e889c7a5')+" kevin");
+      
+    
+      
+     // data = cargarData(dispatch, '61abb2039c13a095e889c7a5');
+  
+
+      /**
+       * categoria_Not: "Matematicas"
+            correo_usu: "marcelazelaya547@yahoo.com"
+            descripcion_Not: "nota"
+            imagenes_Not: "[0,1]"
+            titulo_Not: "Tareas"
+            _id: "61abb2039c13a095e889c7a5"
+      */
+         
+
+
+    
+
+
+
+
 
   const onBtnClick = (e)=> {
     e.preventDefault();
@@ -46,7 +128,7 @@ const UpdNota = ()=>{
       err=false;
     }
     if(err==false){
-      addNewNota(dispatch, txtTitulo, txtType, txtNota, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
+     // addNewNota(dispatch, txtTitulo, txtType, txtNota, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
     }
 
     
@@ -68,6 +150,8 @@ const UpdNota = ()=>{
       }
     
     }
+
+    console.log(not)
     return(
 
         <Page showHeader={true} title="Modificar Nota" showNavBar>
@@ -76,13 +160,15 @@ const UpdNota = ()=>{
                   <div style={{ borderTop: "2px solid #9c9c9c ", marginLeft: 20, marginRight: 20 }}></div>
                     <div>
                      
+
+                     
                                 <div className="m-auto w-11/12">
                                     <TextBox
                                         id="titulo"
                                         label="txtTitulo"
                                         placeholder="Título"
-                                        value={txtTitulo}
-                                        name="txtTitulo"
+                                        value= {txtTitulo}
+                                         name="txtTitulo"
                                         onChange={onChangeHandler} 
 
                                         >

@@ -39,6 +39,17 @@ router.get('/allNotas', async (req, res, next)=>{
     }
   });
 
+  router.get('/OneNota/:id', async (req, res, next)=>{
+    try{
+    const {id} = req.params;
+    const OneNota = await notes.getOneNota(id);
+      return res.status(200).json(OneNota);
+    }catch(ex){
+      console.log(ex);
+      return res.status(500).json({msg:"Error al procesar petición"});
+    }
+  });
+
 //********consultar notas por categoria */
 /*router.get('/bycategoria/:categoria', async(req, res, next) => {
             try {

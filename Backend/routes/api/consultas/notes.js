@@ -41,6 +41,31 @@ class Notes {
     }
 
 
+    async updNote(id,titulo,descripcion,categoria,usuario) {
+      try {
+        let result = await this.noteColl.updateOne({_id:ObjectID(id)},{$set:{
+                                                                titulo_not:titulo,
+                                                                descripcion_not:descripcion,
+                                                                categoria_cat:categoria,
+                                                                usuario_usu:usuario
+                                                              }});
+        console.log(result)
+        return result;
+      } catch(ex) {
+        console.log(ex);
+        throw(ex);
+      }
+    }
+
+    async getOneNota(id){
+      
+      const filter = { "_id": new ObjectID(id) };
+      let buscarNota = await this.notesColl.findOne(filter);
+      return buscarNota;
+    }
+
+
+
     async getAllNotas(correo_usu){
         const filter = {correo_usu: correo_usu }
         let notas = await this.notesColl.find(filter);
@@ -52,8 +77,9 @@ class Notes {
 
 
     //CONSULTAR 1 NOTA***************************************
-    async getById(id) {
-            const filter = { "_id": new ObjectID(id) };
+    async getById(_id) {
+            //const filter = { "_id": new ObjectID(id) };
+            const filter = {"_id":_id };
             let buscarNota = await this.notesColl.findOne(filter);
             return buscarNota;
         }
