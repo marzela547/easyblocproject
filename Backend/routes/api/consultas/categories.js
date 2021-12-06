@@ -34,6 +34,23 @@ class Categories {
             return result;
         }
         /**************************************************************/
+
+        /*******************AGREGAR CATEGORIA******************** */
+        async addCat( Descripcion_Cat,correo_usu) {
+            let newCat = {
+                Descripcion_Cat,
+                correo_usu,
+
+            }
+            let result = await this.categoriesColl.insertOne(newCat);
+            return result;
+        }
+
+        async getAllCat(correo_usu){
+            const filter = {correo_usu: correo_usu }
+            let categorias = await this.categoriesColl.find(filter);
+            return categorias.toArray();
+          }
 }
 
 module.exports = Categories;

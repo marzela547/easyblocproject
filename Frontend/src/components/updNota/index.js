@@ -9,7 +9,7 @@ import TextBox from '../UI/TextBox';
 import { PrimaryButton } from '../UI/Button';
 import ComboBox from '../UI/ComboBox';
 import TextArea from '../UI/TextArea';
-import { cargarData } from '../../store/reducers/notas/action';
+import { UpdNot } from '../../store/reducers/notas/action';
 import { useSelector, useDispatch} from 'react-redux';
 
 
@@ -88,7 +88,7 @@ const UpdNota = ()=>{
       err=false;
     }
     if(err==false){
-     // addNewNota(dispatch, txtTitulo, txtType, txtNota, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
+      UpdNot(dispatch,id, txtTitulo,  txtNota, txtType, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
     }
 
     

@@ -41,13 +41,12 @@ class Notes {
     }
 
 
-    async updNote(id,titulo,descripcion,categoria,usuario) {
+    async updNote(id,titulo_Not,descripcion_Not,categoria_Not) {
       try {
-        let result = await this.noteColl.updateOne({_id:ObjectID(id)},{$set:{
-                                                                titulo_not:titulo,
-                                                                descripcion_not:descripcion,
-                                                                categoria_cat:categoria,
-                                                                usuario_usu:usuario
+        let result = await this.notesColl.updateOne({ "_id": new ObjectID(id)},{$set:{
+            titulo_Not:titulo_Not,
+            descripcion_Not:descripcion_Not,
+            categoria_Not:categoria_Not,
                                                               }});
         console.log(result)
         return result;
