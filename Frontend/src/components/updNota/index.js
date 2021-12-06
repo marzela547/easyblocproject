@@ -25,10 +25,10 @@ const UpdNota = ()=>{
     let tit;
     let not;
     
-    let id = '61abb2039c13a095e889c7a5';
+    let id = '61abb98c378dcfeb19278409';
 
 
-        
+    useEffect(()=>{
         dispatch(
             {
               type:"NOTAS_CARGADA",
@@ -38,9 +38,9 @@ const UpdNota = ()=>{
 
           privateAxios.get(`/api/notes/OneNota/${id}`)
           .then(({data})=>{
-           // console.log(data);
-           //txtTitulo = data.titulo_Not;
-           console.log(data.descripcion_Not);
+           settxtTitulo(data.titulo_Not)
+           settxtNota(data.descripcion_Not)
+           setTxtType(data.categoria_Not)
             dispatch(
               {
                 type:"NOTAS_CARGADA_SUCCESS",
@@ -60,50 +60,10 @@ const UpdNota = ()=>{
 
       
 
-   
 
 
-
-
-
-    //console.log(cargarData(dispatch, '61abb2039c13a095e889c7a5'))
-
-   /* const nota = useSelector(({nota})=>nota);
-    const {titulo,Desnota} = nota;
-   
-    const carga = () => {
-     //  cargarData(dispatch, '61abb2039c13a095e889c7a5')
-        //console.log(cargarData(dispatch, '61abb2039c13a095e889c7a5')+" kevin");
-      }
-      useEffect(()=>{
-        
-          carga();
-        
-      }, []);
+    }, []);
       
-    //console.log(cargarData(dispatch, '61abb2039c13a095e889c7a5')+" kevin");
-      
-    
-      
-     // data = cargarData(dispatch, '61abb2039c13a095e889c7a5');
-  
-
-      /**
-       * categoria_Not: "Matematicas"
-            correo_usu: "marcelazelaya547@yahoo.com"
-            descripcion_Not: "nota"
-            imagenes_Not: "[0,1]"
-            titulo_Not: "Tareas"
-            _id: "61abb2039c13a095e889c7a5"
-      */
-         
-
-
-    
-
-
-
-
 
   const onBtnClick = (e)=> {
     e.preventDefault();
@@ -185,6 +145,7 @@ const UpdNota = ()=>{
                                     <option value="Tareas">Tareas</option>
                                     <option value="Trabajo">Trabajo</option>
                                     <option value="Noticias">Noticias</option>
+                                    <option value="Matematicas">Matematicas</option>
                                     <option value="Importante">Importante</option>
                                     </ComboBox>
                                     <TextArea
