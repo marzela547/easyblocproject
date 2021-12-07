@@ -6,7 +6,39 @@ var CategeroisDao = require('./categories');
 var categories = new CategeroisDao();
 
 
-//**********Consultar 1 nota**********************************
+//agregar nueva nota*********
+router.post('/new', async(req, res, next) => {
+    try {
+        const {
+            titulo_Not,
+            categoria_Not,
+            descripcion_Not,
+            estilos_not,
+            correo_usu
+            
+        } = req.body;
+        
+        // validaciones
+        const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu);
+        console.log(result);
+        res.status(200).json({ msg: "Agregado Satisfactoriamente" });
+    } catch (ex) {
+        console.log(ex);
+        return res.status(500).json({ msg: "Error al procesar petición" });
+    }
+}); // /new
+
+router.get('/allNotas', async (req, res, next)=>{
+    try{
+    const {correo_usu} = req.body;
+    
+      const allNotas = await notes.getAllNotas(correo_usu);
+      return res.status(200).json(allNotas);
+    }catch(ex){
+      console.log(ex);
+      return res.status(500).json({msg:"Error al procesar petición"});
+    }
+  });
 
 router.get('/byid/:id', async (req, res, next)=>{
   try {
@@ -56,25 +88,6 @@ router.get('/allNotas/:correo_usu', async (req, res, next)=>{
 });
 
 /********************************************************** */
-//agregar nueva nota*********
-/*router.post('/new', async(req, res, next) => {
-  try {
-    const {
-      descripcion_not,
-      categoria_cat,
-      titulo_not,
-      imagenes_not,
-      correo_usu
-    } = req.body;
-    const swotMetaArray = swotMeta.split('|');
-    // validaciones
-    const result = await notes.addNew(descripcion_not, categoria_cat, titulo_not, imagenes_not, correo_usu, req.nota._id);
-    console.log(result);
-    res.status(200).json({ msg: "Agregado Satisfactoriamente" });
-  } catch (ex) {
-      console.log(ex);
-      return res.status(500).json({ msg: "Error al procesar petición" });
-    }}); // /new
 
      /********Consulta MODIFICAR UNA CATEGORIA***********************************************/
 router.put('/updCategorie', async(req, res, next) => {
@@ -112,6 +125,23 @@ router.post('/comparar', async (req, res, next) => {
       res.status(200).json({"msg":"correct"});
     }else{
       res.status(200).json({"msg":"error"});
+
+  router.put('/updNota/:id', async(req, res, next) => {
+    try {
+        const { id } = req.params;
+        const {
+            titulo_Not,
+            categoria_Not,
+            descripcion_Not,
+            estilos_not
+            
+        } = req.body;
+        const result = await notes.updNote(id,titulo_Not,descripcion_Not,categoria_Not,estilos_not);
+        console.log(result);
+        res.status(200).json({ msg: 'Modificado OK' });
+    } catch (ex) {
+        console.log(ex);
+        return res.status(500).json({ msg: 'Error al procesar petición' });
     }
   } catch (ex) {
     res.status(500).json({ "msg": "Error" });
@@ -152,7 +182,7 @@ router.post('/newcategory', async (req, res, next) => {
     console.log("ERRRRRRROOOOOOORRRR")
   }
 });
-
+/*
 router.put('/updatenote', async (req, res, next) => {
   try {
     const {id,titulo,descripcion,categoria,usuario} = req.body;
@@ -164,7 +194,7 @@ router.put('/updatenote', async (req, res, next) => {
     res.status(500).json({ "msg": "Error" });
   }
 });
-
+*/
 
 router.get('/allCate/:correo_usu', async (req, res, next)=>{
     try{
