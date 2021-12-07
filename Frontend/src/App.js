@@ -12,7 +12,10 @@ import Rcontasena from "./components/Rcontrasena";
 import Remail from "./components/Remail";
 import Rcodigo from "./components/Rcodigo";
 import CategoriesList from "./components/CategoriesList";
+import Nota from "./components/Notas";
+import Categoria from "./components/Categorias";
 const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
+
 
 function App() {
   return (
@@ -29,6 +32,8 @@ function App() {
             <Route path="/remail" element={<Remail />} />
             <Route path="/rcodigo" element={<Rcodigo />} />
             <Route path="/categories_list" element={<CategoriesList/>} />
+            <Route path="/Nota" element={<Nota />} />
+            <Route path="/Categorias" element={<Categoria />} />
           </Routes>
         </div>
       </BrowserRouter>

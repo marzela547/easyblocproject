@@ -7,17 +7,20 @@ class Notes{
     this.initModel();
   }
   async initModel(){
-     try {
+    try {
       _db = await conn.getDB();
-       this.notesColl = await _db.collection("nota");
+      this.notesColl = await _db.collection("nota");
     }catch(ex){
       console.log(ex);
       process.exit(1);
     }
   }
 //***************************CONSULTAS****************************/
-
-
+async getAllNotas(correo_usu){
+  const filter = {correo_usu: correo_usu }
+  let notas = await this.notesColl.find(filter);
+  return notas.toArray();
+}
 
   //CONSULTAR 1 NOTA***************************************
   async getById(id){

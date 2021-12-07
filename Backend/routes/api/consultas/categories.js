@@ -23,8 +23,14 @@ async deleteCategorie(descripcion_cat, correo_use) {
     let filter = {correo_use: correo_use, descripcion_cat: descripcion_cat};
     let result = await this.categoriesColl.deleteOne(filter);
     return result;
-  }
+}
 /**************************************************************/
+async getAllCate(correo_usu){
+
+    const filter = {correo_usu: correo_usu }
+    let cursor =  await this.categoriesColl.find(filter);
+    return cursor.toArray();
+}
 
 /***********************Actualizar Categoria***** */
 async updCategoria(descripcion_cat, correo_use, actualizacion_cat) {

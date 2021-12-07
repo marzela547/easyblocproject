@@ -13,7 +13,6 @@ router.get('/byid/:id', async (req, res, next)=>{
     const {id} = req.params;
     const oneNoteEntry = await notes.getById(id);
     return res.status(200).json(oneNoteEntry);
-    console.log("Hola papis");
   } catch (ex) {
     console.log(ex);
     return res.status(500).json({ msg: "Error al procesar petición" });
@@ -34,6 +33,19 @@ router.delete('/deleteCategorie/:descripcion_cat/:correo_use', async (req, res, 
     return res.status(500).json({ msg: "Error al procesar petición" });
   }
 });
+
+/********************************************************** */
+router.get('/allNotas/:correo_usu', async (req, res, next)=>{
+  try{
+    const {correo_usu} = req.params;
+    const allNotas = await notes.getAllNotas(correo_usu);
+    return res.status(200).json(allNotas);
+  }catch(ex){
+    console.log(ex);
+    return res.status(500).json({msg:"Error al procesar petición"});
+  }
+});
+
 /********************************************************** */
 //agregar nueva nota*********
 /*router.post('/new', async(req, res, next) => {
