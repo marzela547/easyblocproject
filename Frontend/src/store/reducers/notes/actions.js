@@ -1,17 +1,17 @@
 import { privateAxios } from "../../utils/Axios";
-export const fetchCategoriesData = (dispatch, correo)=>{
+export const fetchNotesData = (dispatch, correo)=>{
   dispatch(
     {
-      type:"CATEGORIES_START_FETCH",
+      type:"NOTES_START_FETCH",
       payload:null
     }
   )
-  privateAxios.get(`api/categories/allCate/`+correo)
+  privateAxios.get(`api/notes/allNotas/`+correo)
   .then(({data})=>{
     console.log(data);
     dispatch(
       {
-        type:"CATEGORIES_FETCH_SUCCESS",
+        type:"NOTES_FETCH_SUCCESS",
         payload: data
       }
     ) 
@@ -20,7 +20,7 @@ export const fetchCategoriesData = (dispatch, correo)=>{
     console.log(err);
     dispatch(
       {
-        type:"CATEGORIES_FETCH_ERROR",
+        type:"NOTES_FETCH_ERROR",
         payload: ["Error al traer información"]
       }
     )
@@ -29,9 +29,9 @@ export const fetchCategoriesData = (dispatch, correo)=>{
 
 export const addCategorie = (dispatch, categorie, email, navigate, to)=>{
   dispatch(
-    {type:"CATEGORIE_ADD_START", payload:null}
+    {type:"NOTE_ADD_START", payload:null}
   );
-  privateAxios.post('api/categories/newcategory', {
+  privateAxios.post('api/notes/newcategory', {
     descripcion: categorie,
     correo: email
 })
@@ -39,17 +39,17 @@ export const addCategorie = (dispatch, categorie, email, navigate, to)=>{
       console.log(data);
       if(data.msg === 1){
         dispatch(
-            {type:"CATEGORIE_ADD_ERROR", payload:["La categoría ya existe"]}
+            {type:"NOTE_ADD_ERROR", payload:["La nota ya existe"]}
           )
-        window.alert("La categoría ya existe");
+        window.alert("La nota ya existe");
       }else{
         dispatch(
             {
-              type:"CATEGORIE_ADD_SUCCESS",
+              type:"NOTE_ADD_SUCCESS",
               payload:null
             }
           );
-          dispatch({ type:"CATEGORIE_LIST_CLEAR", payload:null});
+          dispatch({ type:"NOTE_LIST_CLEAR", payload:null});
           
           navigate(to);
       }
@@ -57,14 +57,14 @@ export const addCategorie = (dispatch, categorie, email, navigate, to)=>{
     .catch((err)=>{
       console.log(err);
       dispatch(
-        {type:"CATEGORIE_ADD_ERROR", payload:null}
+        {type:"NOTE_ADD_ERROR", payload:null}
       )
     });
 }
 
 export const updCategorie = (dispatch, oldCategorie,newCategorie, email, navigate, to)=>{
     dispatch(
-      {type:"CATEGORIE_UPD_START", payload:null}
+      {type:"NOTE_UPD_START", payload:null}
     );
     privateAxios.put('api/categories/updCategorie',
     {
@@ -76,41 +76,41 @@ export const updCategorie = (dispatch, oldCategorie,newCategorie, email, navigat
         console.log(data);
         dispatch(
           {
-            type:"CATEGORIE_UPD_SUCCESS",
+            type:"NOTE_UPD_SUCCESS",
             payload:null
           }
         );
-        dispatch({ type:"CATEGORIE_LIST_CLEAR", payload:null});
+        dispatch({ type:"NOTE_LIST_CLEAR", payload:null});
         navigate(to);
       })
       .catch((err)=>{
         console.log(err);
         dispatch(
-          {type:"CATEGORIE_UPD_ERROR", payload:null}
+          {type:"NOTE_UPD_ERROR", payload:null}
         )
       });
   }
 
   export const dltCategorie = (dispatch, categorie, email, navigate, to)=>{
     dispatch(
-      {type:"CATEGORIE_DLT_START", payload:null}
+      {type:"NOTE_DLT_START", payload:null}
     );
     privateAxios.delete('api/categories/deleteCategorie/'+categorie+'/'+email)
       .then(({data})=>{
         console.log(data);
         dispatch(
           {
-            type:"CATEGORIE_DLT_SUCCESS",
+            type:"NOTE_DLT_SUCCESS",
             payload:null
           }
         );
-        dispatch({ type:"CATEGORIE_LIST_CLEAR", payload:null});
+        dispatch({ type:"NOTE_LIST_CLEAR", payload:null});
         navigate(to);
       })
       .catch((err)=>{
         console.log(err);
         dispatch(
-          {type:"CATEGORIE_DLT_ERROR", payload:null}
+          {type:"NOTE_DLT_ERROR", payload:null}
         )
       });
   }

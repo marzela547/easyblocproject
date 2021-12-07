@@ -1,28 +1,43 @@
-import { privateAxios } from "../../utils/Axios";
-export const fetchSwotData = (dispatch, page, pageItem, text)=>{
-  dispatch(
-    {
-      type:"SWOT_START_FETCH",
-      payload:null
-    }
-  )
-  privateAxios.get(`/api/swot/facet/${page}/${pageItem}`)
-  .then(({data})=>{
-    console.log(data);
-    dispatch(
-      {
-        type:"SWOT_FETCH_SUCCESS",
-        payload: data
-      }
-    )
-  })
-  .catch((err)=>{
-    console.log(err);
-    dispatch(
-      {
-        type:"SWOT_FETCH_ERROR",
-        payload: ["Error al traer Info"]
-      }
-    )
-  });
+const initialState = {
+  items:[],
+  fetching:false,
+  hasErrors:false,
+  errors:[],
+  note: {}
 }
+
+const noteReducer = (state=initialState, action)=>{
+  const {type, payload} = action;
+  switch( type ){
+    case "NOTES_START_FETCH":
+      return {
+        ...state,
+        fetching:true,
+        hasErrors:false,
+        errors:[]
+      }
+    case "NOTES_FETCH_SUCCESS":
+      
+      return {
+        ...state,
+        fetching:false,
+        hasErrors:false,
+        errors:[],
+        items: [...state.items, ...payload.documents]
+      }
+    case "NOTE_FETCH_SUCCESS":
+      return{
+        ...state,
+        fetching:false,
+        hasErrors:false,
+        errors:[],
+        categorie: payload.categorie
+      }
+    case "NOTE_LIST_CLEAR":
+      return{...initialState};
+  default:
+    return state;
+  }
+}
+
+export default noteReducer;
