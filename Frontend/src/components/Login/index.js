@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import imagen from '../imgs/UsuarioL.svg';
 import Page from '../Page';
 import TextBox from '../UI/TextBox';
-import { publicAxios } from "../../store/utils/Axios";
 import Password from '../UI/Password';
 import { useSelector, useDispatch} from 'react-redux';
 import { doLogin } from '../../store/reducers/security/actions';
@@ -22,38 +21,6 @@ const Login = ()=>{
     e.stopPropagation();
     //console.log("holaaaa");
    doLogin(dispatch, txtCorreo, txtPassword, navigate);
-
-/*
-    publicAxios.post(
-      '/api/sec/login',
-      {
-        email: txtCorreo,
-        pswd: txtPassword,
-      }
-    )
-    .then(
-      ({data}) => {
-        console.log(data)
-        dispatch(
-          {
-            type: "Cambio exitoso",
-            payload: data,
-          }
-        );
-        navigate('/login',{replace:true});
-      }
-    )
-    .catch(
-      (err)=>{
-        console.log(err);
-        dispatch(
-          {
-            type: "Cambio erroneo",
-            payload: err,
-          }
-        );
-      }
-    );*/
   };
   
   const onChangeHandler = (e)=>{
@@ -88,9 +55,6 @@ const Login = ()=>{
           placeholder="Correo Electrónico Valido"
           onChange={onChangeHandler}
           name="txtCorreo"
-          onBlur={(e)=>{
-            alert("salio de foco");
-          }}
          />
         <Password
           label="Contraseña"

@@ -1,12 +1,12 @@
 import { privateAxios } from "../../utils/Axios";
-export const fetchCategoriesData = (dispatch, page, pageItem, text)=>{
+export const fetchCategoriesData = (dispatch, correo)=>{
   dispatch(
     {
       type:"CATEGORIES_START_FETCH",
       payload:null
     }
   )
-  privateAxios.get(`/api/swot/facet/${page}/${pageItem}`)
+  privateAxios.get(`api/categories/allCate/`+correo)
   .then(({data})=>{
     console.log(data);
     dispatch(
@@ -14,7 +14,7 @@ export const fetchCategoriesData = (dispatch, page, pageItem, text)=>{
         type:"CATEGORIES_FETCH_SUCCESS",
         payload: data
       }
-    )
+    ) 
   })
   .catch((err)=>{
     console.log(err);

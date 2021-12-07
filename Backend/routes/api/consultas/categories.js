@@ -51,13 +51,25 @@ async createNewCategory(descripcion_cat,correo_use)
     }
   }
   
-  
+  /***********Una categoria************ */
   async getByTitlte(titulo,correo) {
     let filter = { "descripcion_cat": titulo,"correo_use": correo};
     let result = await this.categoriesColl.findOne(filter);
     return result;
 }
 
+/***********Todas las categorias****************/
+async getAllCate(correo_usu){
+  const filter = {correo_usu: correo_usu }
+  let cursor =  await this.categoriesColl.find(filter);
+  let documents = await cursor.toArray();
+  return {
+
+      documents,
+
+  }
+
+   }
 
 }
 

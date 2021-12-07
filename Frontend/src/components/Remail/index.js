@@ -25,8 +25,6 @@ const Remail = ()=>{
     {
       err=true;
       document.getElementById('cormensaje').innerHTML = 'Error,Campo obligatorio';
-    }if(validarCorreo(txtCorreo,document.getElementById('cormensaje'))){
-
     }else{
       publicAxios.post(
         'api/sec/getemail',

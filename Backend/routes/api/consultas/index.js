@@ -80,20 +80,6 @@ router.get('/bycategoria/:categoria', async(req, res, next) => {
                 return res.status(500).json({ msg: "Error al procesar petición" });
             }});
 
-/********Consultas Kevin***********************************************/
-/*router.put('/updCategoria/:id', async(req, res, next) => {
-  try {
-      const { id } = req.params;
-      const { Descripcion_Cat } = req.body;
-      const result = await note.updCategoria(id, Descripcion_Cat);
-      console.log(result);
-      res.status(200).json({ msg: 'Modificado OK' });
-  } catch (ex) {
-      console.log(ex);
-      return res.status(500).json({ msg: 'Error al procesar petición' });
-  }
-});*/
-/******************************************************************** */
 router.post('/comparar', async (req, res, next) => {
   try {
     console="llego"
@@ -162,5 +148,17 @@ router.put('/updatenote', async (req, res, next) => {
 router.get('/getAllNotes', async(req, res, next) =>{
   
 });
+
+router.get('/allCate/:correo_usu', async (req, res, next)=>{
+    try{
+    const {correo_usu} = req.params;
+
+      const allCat = await categories.getAllCate(correo_usu);
+      return res.status(200).json(allCat);
+    }catch(ex){
+      console.log(ex);
+      return res.status(500).json({msg:"Error al procesar petición"});
+    }
+  });
 
 module.exports = router;
