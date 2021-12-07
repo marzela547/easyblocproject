@@ -25,6 +25,12 @@ class Categories{
     return result;
 }
 /**************************************************************/
+async getAllCate(correo_usu){
+
+    const filter = {correo_usu: correo_usu }
+    let cursor =  await this.categoriesColl.find(filter);
+    return cursor.toArray();
+}
 
 
 }
