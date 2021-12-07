@@ -1,14 +1,13 @@
-import BotonAgregar from "./BotonAgregar";
+//import BotonAgregar from "./BotonAgregar";
 import Elemento from "./Elemento";
 
 const ListaElementos = props =>{
     const elementos = props.elementos.map(elemento => {
-        return <Elemento key={elemento.id} elemento = {elemento} />
+        return <Elemento key={elemento._id} titulo = {elemento.titulo_Not}/>
     })
     return( 
-        <div className="text-red-500">
+        <div className="text-black-500">
             {elementos}
-            <BotonAgregar/>
         </div>
     )
 }

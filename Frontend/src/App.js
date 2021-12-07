@@ -6,6 +6,7 @@ import RequireAuth from './components/UI/RequireAuth';
 import Login from "./components/Login";
 import Ccontasena from "./components/Ccontrasena";
 import Nota from "./components/Notas";
+import Categoria from "./components/Categorias";
 const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
 
 
@@ -18,6 +19,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/ccontrasena" element={<Ccontasena />} />
             <Route path="/Nota" element={<Nota />} />
+            <Route path="/Categorias" element={<Categoria />} />
           </Routes>
         </div>
       </BrowserRouter>
