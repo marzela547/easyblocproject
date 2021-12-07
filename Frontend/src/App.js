@@ -6,7 +6,7 @@ import RequireAuth from './components/UI/RequireAuth';
 import Login from "./components/Login";
 import Ccontasena from "./components/Ccontrasena";
 import NCategoria from "./components/NuevaCategoria";
-import NUsuario from "./components/AgregarUsuario";
+import NUsuario from "./components/SignIn";
 import Perfil from "./components/Perfil";
 import Rcontasena from "./components/Rcontrasena";
 import Remail from "./components/Remail";
@@ -22,7 +22,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/ccontrasena" element={<Ccontasena />} />
             <Route path="/add_categories" element={<NCategoria/>}/>
-            <Route path="/add_user" element={<NUsuario/>}/>
+            <Route path="/signin" element={<NUsuario/>}/>
             <Route path="/profile" element={<Perfil/>}/>
             <Route path="/rcontrasena" element={<Rcontasena />} />
             <Route path="/remail" element={<Remail />} />

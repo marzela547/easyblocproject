@@ -23,7 +23,7 @@ const Login = ()=>{
     //console.log("holaaaa");
    doLogin(dispatch, txtCorreo, txtPassword, navigate);
 
-
+/*
     publicAxios.post(
       '/api/sec/login',
       {
@@ -53,7 +53,7 @@ const Login = ()=>{
           }
         );
       }
-    );
+    );*/
   };
   
   const onChangeHandler = (e)=>{
@@ -68,7 +68,13 @@ const Login = ()=>{
   const onBtnRegistro = (e) =>{
     e.preventDefault();
     e.stopPropagation();
-    navigate('/add_user',{replace:true});
+    navigate('/signin',{replace:true});
+  }
+
+  const onBtnOlvidar = (e) =>{
+    e.preventDefault();
+    e.stopPropagation();
+    navigate('/remail',{replace:true});
   }
   const { hasErrors } = security;
   //let abc = require('../imgs/Easy_Bloc.svg');
@@ -96,6 +102,7 @@ const Login = ()=>{
         <div style={{width:"100%", padding:'0.5em', marginTop:'1em'}}>
         <button onClick={onBtnClick} type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Iniciar Sesión</button>
         <button onClick={onBtnRegistro} type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Regístrate</button>
+        <label onClick={onBtnOlvidar} className="text-gray-800 lg:text-black lg:hover:text-gray-800 w-max mx-auto flex">¿Olvidaste tu contraseña?</label>
         </div>
         {
           (hasErrors && (

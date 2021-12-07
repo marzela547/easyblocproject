@@ -5,6 +5,7 @@ import Page from '../Page';
 import { useSelector, useDispatch} from 'react-redux';
 import TextBox from '../UI/TextBox';
 import Rcodigo from "../Rcodigo";
+import { validarCorreo } from '../../store/utils/Validaciones';
 
 const getSecurity = ({security})=>security;
 const Remail = ()=>{
@@ -24,6 +25,8 @@ const Remail = ()=>{
     {
       err=true;
       document.getElementById('cormensaje').innerHTML = 'Error,Campo obligatorio';
+    }if(validarCorreo(txtCorreo,document.getElementById('cormensaje'))){
+
     }else{
       publicAxios.post(
         'api/sec/getemail',
@@ -51,7 +54,7 @@ const Remail = ()=>{
                     alert("Código enviado");
                     navigate('/rcodigo',{replace:true});
                   }else{
-                      alert("Error con envio de código ");
+                      alert("Error con envío de código ");
                   }
                 }
               )
@@ -83,8 +86,8 @@ const Remail = ()=>{
   return (
     <Page showHeader={true} title="Recuperar Usuario" showNavBar>
       <div className=" w-11/12 h-auto mx-auto mt-16 border-4 bg-gray-200  rounded-md shadow-lg text-center justify-center">
-        <h1 className="mt-6 text-2xl font-bold">Recupera Usuario</h1>
-        <hr className=" w-11/12 h-1 m-auto mb-4 bg-black"/>
+        <h1 className="mt-6 mb-2 text-2xl font-bold">Recupera Usuario</h1>
+        <hr className=" w-11/12 m-auto mb-4 bg-gray-500"/>
         <div  className="w-11/12 mx-auto">
         <TextBox
             corre={txtCorreo}

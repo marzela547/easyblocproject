@@ -15,7 +15,7 @@ const NavBar = ()=>{
     </ul>) :
     (<ul>
       <li className=" mr-4" ><Link to="/login"><FaUser className="w-8 h-8"/>Login</Link></li>
-      <li><Link to="/newuser"><FaUserPlus className="w-8 h-8"/>Crear</Link></li>
+      <li><Link to="/signin"><FaUserPlus className="w-8 h-8"/>Crear</Link></li>
     </ul>);
 
   return (

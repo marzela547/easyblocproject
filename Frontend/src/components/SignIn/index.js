@@ -1,97 +1,162 @@
-import { useState } from 'react'
-
-import { publicAxios } from '../../store/utils/Axios';
-
 import Page from '../Page';
 import TextBox from '../UI/TextBox';
 import Password from '../UI/Password';
-import Content from '../UI/Content';
-import { PrimaryButton } from '../UI/Button';
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch} from 'react-redux';
+import {validarCaracteresContrasena, 
+        validarIgualdadContrasena,
+        soloNumeros,
+        validarCorreo,
+        soloLetras} from '../../store/utils/Validaciones';
+import {doSignIn} from '../../store/reducers/security/actions';
 
-import { useSelector, useDispatch } from 'react-redux';
+const NUsuario = () =>{
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    //Validaciones val = new Validaciones();
+    const [txtName, setTxtName] = useState("");
+    const [txtLastName, setTxtLastName] = useState("");
+    const [txtPhone, setTxtPhone] = useState("");
+    const [txtEmail, setTxtEmail] = useState("");
+    const [txtPasswordn, setTxtPasswordn] = useState("");
+    const [txtPasswordc, setTxtPasswordc] = useState("");
+    let err=false;
+  let expre;
 
-const getSecurity = ({ security }) => security;
-const SignIn = () => {
-
-  const [txtCorreo, setTxtCorreo] = useState("");
-  const [txtPassword, setTxtPassword] = useState("");
-
-  const security = useSelector(getSecurity);
-  const dispatch = useDispatch();
-
-  const onBtnClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    dispatch(
-      {
-        type: "SEC_SIGNIN_FETCH",
-        payload: null,
-      }
-    );
-    publicAxios.post(
-      '/api/sec/signin',
-      {
-        email: txtCorreo,
-        pswd: txtPassword,
-      }
-    )
-      .then(
-        ({data}) => {
-          console.log(data)
-          dispatch(
-            {
-              type: "SEC_SIGNIN_SUCCESS"
+    const onChangeUser = (e)=>{
+       e.preventDefault();
+       e.stopPropagation();
+       err=false;
+       expre=/^\s*$/;
+        if(expre.test(txtPasswordn) || expre.test(txtPhone) || expre.test(txtEmail) || expre.test(txtLastName) || expre.test(txtName) || expre.test(txtPasswordc))
+        {
+        //console.log(expre.test(txtPassword)+" entro");
+        document.getElementById('mensajen').innerHTML = 'Por favor, llene todos los campos solicitados';
+        }else{
+            //document.getElementById('mensajen').innerHTML = 'Error, No coincide con confirmar contraseña';
+            //expre =/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+          //  if()
+            if(validarIgualdadContrasena(txtPasswordc, txtPasswordn, document.getElementById('mensajen')))
+                err=true;
+            else
+                if(validarCaracteresContrasena(txtPasswordn, document.getElementById('mensajen')))
+                    err = true;
+                else
+                    if(soloNumeros(txtPhone,document.getElementById('mensajen'))){
+                        err= true;
+                    }
+                    else
+                        if(validarCorreo(txtEmail,document.getElementById('mensajen'))){
+                            err = true;
+                        }else
+                            if(soloLetras(txtLastName, document.getElementById('mensajen')) ){
+                                err=true;
+                            }else{
+                            document.getElementById('mensajen').innerHTML='';
+                        }
+            
+            if(err==false){
+                doSignIn(dispatch, txtName, txtLastName, txtPhone, txtEmail, txtPasswordn, navigate, "/login");
+                        /*setTxtEmail("");
+                        setTxtLastName("");
+                        setTxtPasswordc("");
+                        setTxtPasswordn("");
+                        setTxtName("");
+                        setTxtPhone("");
+                        document.getElementById('mensajen').innerHTML = '';
+                        */
+                  
             }
-          );
         }
-      )
-      .catch(
-        (err) => {
-          console.log(err);
-          dispatch(
-            {
-              type: "SEC_SIGNIN_ERROR",
-              payload: err,
-            }
-          );
-        }
-      );
-
-
-  };
-  const onChangeHandler = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.target.name === "txtCorreo") {
-      setTxtCorreo(e.target.value);
-    } else {
-      setTxtPassword(e.target.value);
     }
-  }
 
-  return (
-    <Page showHeader={true} title="Crear Cuenta" showNavBar>
-      <Content>
-        <TextBox
-          label="Correo Electrónico"
-          value={txtCorreo}
-          placeholder="Correo Electrónico Valido"
-          onChange={onChangeHandler}
-          name="txtCorreo"
-        />
-        <Password
-          label="Contraseña"
-          value={txtPassword}
-          placeholder="Contraseña"
-          onChange={onChangeHandler}
-          name="txtPassword"
-        />
-        <div style={{ width: "100%", padding: '0.5em', marginTop: '1em' }}>
-          <PrimaryButton onClick={onBtnClick}>Crear Cuenta</PrimaryButton>
-        </div>
-      </Content>
-    </Page>
-  );
+    const onChangeHandler = (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        
+        switch(e.target.name){
+            case "name":
+                setTxtName(e.target.value);
+                break;
+            case "last":
+                setTxtLastName(e.target.value);
+                break;
+            case "phone":
+                setTxtPhone(e.target.value);
+                break;
+            case "email":
+                setTxtEmail(e.target.value);
+                break;
+            case "cpass":
+                setTxtPasswordc(e.target.value);
+                break;
+            case "npass":
+                setTxtPasswordn(e.target.value);
+                break;
+        }
+      }
+
+    return(
+        <Page showHeader={true} title="Iniciar Sesión" showNavBar>
+            <div className=" flex-col items-center my-10 bg-gray-200 w-9/12 h-auto flex mx-auto p-5">
+                <h1 className="text-2xl font-bold">Registro</h1>
+                <hr className=" w-full bg-gray-500 my-3"/>
+                <TextBox 
+                    id="txtname"
+                    label="Ingresar Nombre"
+                    value={txtName}
+                    placeholder="Ingresar nombres"
+                    onChange={onChangeHandler}
+                    name="name"
+                />
+                <TextBox 
+                    id="txtlast"
+                    label="Ingresar Apellido"
+                    value={txtLastName}
+                    placeholder="Ingresar apellidos"
+                    onChange={onChangeHandler}
+                    name="last"
+                />
+                <TextBox 
+                    id="txtphone"
+                    label="Ingresar Telefono"
+                    value={txtPhone}
+                    placeholder="Ingresar teléfono"
+                    onChange={onChangeHandler}
+                    name="phone"
+                />
+                <TextBox 
+                    id="txtemail"
+                    label="Ingresar Correo"
+                    value={txtEmail}
+                    placeholder="Ingresar correo"
+                    onChange={onChangeHandler}
+                    name="email"
+                />
+                 <Password
+                    id="cnueva"
+                    label="Contraseña Nueva"
+                    value={txtPasswordn}
+                    placeholder="Contraseña Nueva"
+                    onChange={onChangeHandler}
+                    name="npass"
+                />
+                
+                <Password
+                    className="mb-4"
+                    id="cconfirmar"
+                    label="Contraseña Confirmar"
+                    value={txtPasswordc}
+                    placeholder="Contraseña Confirmar"
+                    onChange={onChangeHandler}
+                    name="cpass"
+                />
+                <label id="mensajen" className="text-red-600 text-sm w-full h-4 mb-4 text-center"></label>
+                <button onClick={onChangeUser} type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Crear</button>
+            </div>
+        </Page>
+    );
 }
 
-export default SignIn
+export default NUsuario;
