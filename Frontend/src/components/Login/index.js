@@ -22,12 +22,7 @@ const Login = ()=>{
   const onBtnClick =  (e)=> {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(
-      {
-        type:"SEC_LOGIN_FETCH",
-        payload: null,
-      }
-    );
+
     publicAxios.post(
       '/api/sec/login',
       {
@@ -40,11 +35,11 @@ const Login = ()=>{
         console.log(data)
         dispatch(
           {
-            type: "SEC_LOGIN_SUCCESS",
+            type: "Cambio exitoso",
             payload: data,
           }
         );
-        navigate('/dashboard',{replace:true});
+        navigate('/login',{replace:true});
       }
     )
     .catch(
@@ -52,15 +47,14 @@ const Login = ()=>{
         console.log(err);
         dispatch(
           {
-            type: "SEC_LOGIN_ERROR",
+            type: "Cambio erroneo",
             payload: err,
           }
         );
       }
     );
-
-
   };
+  
   const onChangeHandler = (e)=>{
     e.preventDefault();
     e.stopPropagation();

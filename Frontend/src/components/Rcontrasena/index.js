@@ -1,26 +1,27 @@
-import { useState } from 'react'
+import { useState,PropTypes } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { publicAxios } from '../../store/utils/Axios';
 import Page from '../Page';
 import Password from '../UI/Password';
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector} from 'react-redux';
+
 import TextBox from '../UI/TextBox';
 const getSecurity = ({security})=>security;
-const Rcontrasen = ()=>{
 
-  //const [txtCorreo, setTxtCorreo] = useState("");
-  const [txtPassworda, setTxtPassworda] = useState("");
+
+const Rcontrasen = ()=>{
+  const {user} = useSelector(getSecurity);
+
+  const navigate = useNavigate();
   const [txtPasswordn, setTxtPasswordn] = useState("");
   const [txtPasswordc, setTxtPasswordc] = useState("");
-  const security = useSelector(getSecurity);
-  const navigate = useNavigate();
-  const txtCorreo= "kevin@gmail.com";
+  const txtCorreo= user.correo;
   let err=false;
   let expre;
-
   const onBtnClick =  (e)=> {
     e.preventDefault();
     e.stopPropagation();
+    
     err=false;
     document.getElementById('mensajea').innerHTML = '';
     document.getElementById('mensajen').innerHTML = '';
@@ -53,7 +54,6 @@ const Rcontrasen = ()=>{
       )
       .then(
         ({data}) => {
-          console.log(data.msg)
           const me=data.msg
           if (data.msg==1){
             alert("Cambio de Contraseña exitoso");
@@ -66,9 +66,7 @@ const Rcontrasen = ()=>{
         }
       );
  navigate('/',{replace:true});
-
     }else{
-      console.log("errores");
     }
   };
 
@@ -82,8 +80,6 @@ const Rcontrasen = ()=>{
       setTxtPasswordc(e.target.value);
     }
   }
-  const { hasErrors } = security;
-
   return (
     <Page showHeader={true} title="Iniciar Sesión" showNavBar>
       <div className=" w-11/12 h-auto mx-auto mt-16 border-4 bg-gray-200 rounded-md shadow-lg text-center justify-center">
@@ -92,7 +88,7 @@ const Rcontrasen = ()=>{
         <div  className="w-11/12 mx-auto">
         <TextBox
           label="Correo Electrónico"
-          value={txtCorreo}
+          value={user.correo}
           placeholder="Correo Electrónico Valido"
           onChange={onChangeHandler}
           name="txtCorreo"
