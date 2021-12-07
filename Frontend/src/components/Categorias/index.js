@@ -1,28 +1,36 @@
 import { useState,useEffect } from "react";
+import { useSelector, useDispatch} from 'react-redux';
 import ListaElementos from "../NotayCategoriaComponent/ListaElementoCategoria";
-import Page from "../Page"
+import Page from "../Page";
+import { fetchCategoriesData } from '../../store/reducers/categories/actions';
 import {publicAxios} from "../../store/utils/Axios"
 import { useNavigate } from 'react-router-dom';
 
+const getSecurity = ({security})=>security;
+const getCategories =({categories})=>categories;
 const AgregarCategoria = () =>{ 
 
-    const [termino, setTermino] = useState("")
-    const [categoria, setcategoria] = useState([])
-    let correo = "kevin@gmail.com";
+    const [categoria, setcategoria] = useState([]);
+    const dispatch = useDispatch();
+    const {user} = useSelector(getSecurity);
+    const {items} = useSelector(getCategories);
+
+    let correo_usu = "kevin@gmail.com";
+    const cargar = (i) =>{
+        fetchCategoriesData(dispatch, correo_usu);
+        setcategoria(i);
+    }
+    
     useEffect(() => {
-        const traerCateg = async() => {
-            const {data} = await publicAxios.get(`/api/notes/allcate/${correo}`);
-            setcategoria(data);
-            console.log(data);
-        }
-        traerCateg()
+        
+        cargar(items);
     }, [])
 
     const navigate = useNavigate();
     const onChangeNavegar = (e)=>{
         e.preventDefault();
         e.stopPropagation();
-        navigate('/login',{replace:true});
+        navigate('/add_categories',{replace:true});
     }
     //************************************************************************** */
     return(
@@ -33,7 +41,7 @@ const AgregarCategoria = () =>{
         <div  className="w-11/12 mx-auto">
             <ListaElementos elementos = {categoria}/>
             <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-black text-white">
-                <button onClick={onChangeNavegar}>+</button>
+                <button onClick={onChangeNavegar}>Agregar Categoría</button>
             </div>
         </div>
     </div>
@@ -42,13 +50,3 @@ const AgregarCategoria = () =>{
 }
 
 export default AgregarCategoria;
-
-
-/* <form className="mx-auto">
-            <div className="mx-auto md:flex md:items-center mb-12">
-            <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-red-400 text-black">
-                <button className="">+</button>
-            </div>
-            </div>
-            </form>
-            */

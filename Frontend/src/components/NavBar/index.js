@@ -9,7 +9,7 @@ const NavBar = ()=>{
   const menu = isLogged ?
     (<ul>
       <li><Link to="/nota"><FaStickyNote className="w-8 h-8" />Notas</Link></li>
-      <li><Link to="/categoria"><FaCertificate className="w-8 h-8"/>Categorías</Link></li>
+      <li><Link to="/categories"><FaCertificate className="w-8 h-8"/>Categorías</Link></li>
       <li><Link to="/profile"><FaUserEdit className="w-8 h-8" />Mi Perfil</Link></li>
       <li><Link to="/salir"><FaSignOutAlt className="w-8 h-8"/>Salir</Link></li>
     </ul>) :

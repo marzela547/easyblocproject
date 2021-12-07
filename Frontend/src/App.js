@@ -33,7 +33,7 @@ function App() {
             <Route path="/rcodigo" element={<Rcodigo />} />
             <Route path="/categories_list" element={<CategoriesList/>} />
             <Route path="/Nota" element={<Nota />} />
-            <Route path="/Categorias" element={<Categoria />} />
+            <Route path="/categories" element={<Categoria />} />
           </Routes>
         </div>
       </BrowserRouter>
