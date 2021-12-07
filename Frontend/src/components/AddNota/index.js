@@ -8,15 +8,16 @@ import { PrimaryButton } from '../UI/Button';
 import ComboBox from '../UI/ComboBox';
 import TextArea from '../UI/TextArea';
 import { addNewNota } from '../../store/reducers/notas/action';
-
+import { fetchCategoriesData } from '../../store/reducers/categories/actions';
 import { useSelector, useDispatch} from 'react-redux';
 import { cargarCatCmb } from '../../store/reducers/notas/action';
 
 
 const getSecurity = ({security})=>security;
 const AddNota = ()=>{
-  const nota = useSelector(({nota})=>nota);
-  const{hasMore,items} = nota;
+  const nota = useSelector(({notes})=>notes);
+  const{hasMore, items} = nota;
+  const {user} = useSelector(getSecurity);
   const [txtTitulo, settxtTitulo] = useState("");
   const [txtNota, settxtNota] = useState("");
   const [txtType, setTxtType] = useState('S');
@@ -24,10 +25,10 @@ const AddNota = ()=>{
   const navigate = useNavigate();
   let err;
   let expre;
-  let correo = 'marcelazelaya547@yahoo.com';
+ 
 
   const cargar = () => {
-    cargarCatCmb(dispatch,correo)
+    fetchCategoriesData(dispatch, user.correo_usu);
   }
   useEffect(()=>{ 
     if (hasMore) {
@@ -129,15 +130,9 @@ const AddNota = ()=>{
                                         <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-black text-white">
                                             <PrimaryButton onClick={onBtnClick}>Crear Nota</PrimaryButton>
                                           </div>
-
-                                   
-                            
                     </div>
                 </div>
-           
        </Page>
-
-
     );
     
 

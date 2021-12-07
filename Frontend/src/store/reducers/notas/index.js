@@ -1,4 +1,5 @@
 const initialState = {
+    hasMore:true,
     fetching: false,
     items:[],
     hasErrors:false,
@@ -22,8 +23,9 @@ const initialState = {
         case "NOTAS_CARGADA_SUCCESS":
           return {
             ...state,
+            fetching: false,
+            hasMore: true,
             prueba:'2',
-            fetching:false,
             hasErrors:false,
             error:[],
             items:[...state.items, ...payload.documents]

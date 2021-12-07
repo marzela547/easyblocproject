@@ -118,7 +118,7 @@ export const cargarCatCmb = (dispatch,correo_usu)=>{
     }
   )
 
-  privateAxios.get(`/api/notes/allCate/${correo_usu}`)
+  privateAxios.get(`api/categories/allCate/${correo_usu}`)
   .then(({data})=>{
     console.log(data);
     dispatch(
