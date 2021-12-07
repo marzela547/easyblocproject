@@ -16,6 +16,9 @@ import Nota from "./components/Notas";
 import Categoria from "./components/Categorias";
 const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
 
+import AddNota from "./components/AddNota";
+import UpdNota from "./components/updNota";
+const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
 
 function App() {
   return (
@@ -34,6 +37,8 @@ function App() {
             <Route path="/categories_list" element={<CategoriesList/>} />
             <Route path="/notes" element={<Nota />} />
             <Route path="/categories" element={<Categoria />} />
+		      	<Route path="/addnota" element={<AddNota />} />
+            <Route path="/updnota" element={<UpdNota />} />
           </Routes>
         </div>
       </BrowserRouter>
