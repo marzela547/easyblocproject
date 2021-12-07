@@ -8,6 +8,9 @@ import Ccontasena from "./components/Ccontrasena";
 import NCategoria from "./components/NuevaCategoria";
 import NUsuario from "./components/AgregarUsuario";
 import Perfil from "./components/Perfil";
+import Rcontasena from "./components/Rcontrasena";
+import Remail from "./components/Remail";
+import Rcodigo from "./components/Rcodigo";
 const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>
 
 function App() {
@@ -21,6 +24,9 @@ function App() {
             <Route path="/add_categories" element={<NCategoria/>}/>
             <Route path="/add_user" element={<NUsuario/>}/>
             <Route path="/profile" element={<Perfil/>}/>
+            <Route path="/rcontrasena" element={<Rcontasena />} />
+            <Route path="/remail" element={<Remail />} />
+            <Route path="/rcodigo" element={<Rcodigo />} />
           </Routes>
         </div>
       </BrowserRouter>

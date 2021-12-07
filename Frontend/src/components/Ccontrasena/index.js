@@ -8,14 +8,13 @@ import {validarCaracteresContrasena, validarIgualdadContrasena} from '../../stor
 
 const getSecurity = ({security})=>security;
 const Ccontrasen = ()=>{
-
-  //const [txtCorreo, setTxtCorreo] = useState("");
+  const {user} = useSelector(getSecurity);
   const [txtPassworda, setTxtPassworda] = useState("");
   const [txtPasswordn, setTxtPasswordn] = useState("");
   const [txtPasswordc, setTxtPasswordc] = useState("");
   const security = useSelector(getSecurity);
   const navigate = useNavigate();
-  const txtCorreo= "kevin@gmail.com";
+  const txtCorreo= user.correo;
   let err=false;
   let expre;
 
@@ -28,7 +27,6 @@ const Ccontrasen = ()=>{
     expre=/^\s*$/;
     if(expre.test(txtPassworda))
     {
-      console.log(expre.test(txtPassworda)+" entro");
       err=true;
       document.getElementById('mensajea').innerHTML = 'Error,Campo obligatorio';
     }else{
@@ -75,7 +73,6 @@ const Ccontrasen = ()=>{
       )
       .then(
         ({data}) => {
-          console.log(data.msg)
           const me=data.msg
           if (data.msg==1){
             alert("Cambio de Contraseña exitoso");

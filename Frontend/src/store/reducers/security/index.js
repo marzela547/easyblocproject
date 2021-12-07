@@ -72,9 +72,19 @@ const securityReducer = (state = initialState, action) => {
         hasErrors: true,
         errors: [payload]
       }
+      case "R_CON":
+        let datos = payload;
+        localStorage.setItem("data", JSON.stringify(datos));
+        return {
+          ...state,
+          user: datos,
+          errors:[]
+        }
     default:
       return state;
   }
+//------------------------------
+
 }
 
 export default securityReducer;
