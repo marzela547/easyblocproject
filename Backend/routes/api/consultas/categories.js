@@ -59,7 +59,7 @@ async createNewCategory(descripcion_cat,correo_use)
   
   /***********Una categoria************ */
   async getByTitlte(titulo,correo) {
-    let filter = { "descripcion_cat": titulo,"correo_use": correo};
+    let filter = { "descripcion_cat": titulo,"correo_usu": correo};
     let result = await this.categoriesColl.findOne(filter);
     return result;
 }

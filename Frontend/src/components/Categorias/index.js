@@ -34,14 +34,12 @@ const AgregarCategoria = () =>{
     //************************************************************************** */
     return(
         <Page showHeader={true}  showNavBar>
-        <div className="w-11/12 h-96 mx-auto mt-0 border-4 bg-gray-200 rounded-md shadow-lg text-center overflow-y-scroll">
+        <div className=" w-11/12 h-4/5 mx-auto mt-8 border-4 bg-gray-200 rounded-md shadow-lg text-center overflow-y-scroll">
         <h1 className="mt-6 text-2xl font-bold">Categorias</h1>
-        <hr className=" w-11/12 m-auto mb-4 bg-gray-500 "/>
+        <hr className=" w-11/12 m-auto my-4 bg-gray-500 "/>
         <div  className="w-11/12 mx-auto">
             <ListaElementos elementos = {items}/>
-            <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-black text-white">
-                <button onClick={onChangeNavegar}>Agregar Categoría</button>
-            </div>
+            <button onClick={onChangeNavegar} name="categories" type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Agregar Categoría</button>
         </div>
     </div>
     </Page>

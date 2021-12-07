@@ -165,10 +165,6 @@ router.put('/updatenote', async (req, res, next) => {
   }
 });
 
-/********Traer todas las notas */
-router.get('/getAllNotes', async(req, res, next) =>{
-  
-});
 
 router.get('/allCate/:correo_usu', async (req, res, next)=>{
     try{

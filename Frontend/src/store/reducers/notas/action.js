@@ -1,5 +1,34 @@
 import { privateAxios } from "../../utils/Axios";
 
+
+export const fetchNotesData = (dispatch, correo)=>{
+  dispatch(
+    {
+      type:"NOTAS_CARGADA",
+      payload:null
+    }
+  )
+  privateAxios.get(`api/notes/allNotas/`+correo)
+  .then(({data})=>{
+    console.log(data);
+    dispatch(
+      {
+        type:"NOTAS_CARGADA_SUCCESS",
+        payload: data
+      }
+    ) 
+  })
+  .catch((err)=>{
+    console.log(err);
+    dispatch(
+      {
+        type:"NOTES_FETCH_ERROR",
+        payload: ["Error al traer información"]
+      }
+    )
+  });
+}
+
 /**************************************INSERTAR NOTA************************************************************************/
 export const addNewNota = (dispatch, titulo_Not, categoria_Not, descripcion_Not, correo_usu,navigate, to)=>{
     dispatch(

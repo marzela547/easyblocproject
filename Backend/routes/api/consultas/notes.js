@@ -68,7 +68,8 @@ class Notes{
     async getAllNotas(correo_usu){
         const filter = {correo_usu: correo_usu }
         let notas = await this.notesColl.find(filter);
-        return notas.toArray();
+        let documents = await notas.toArray();
+        return {documents}
       }
 
     //***************************CONSULTAS****************************/

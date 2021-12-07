@@ -22,7 +22,7 @@ const NavBar = ()=>{
     </div>);
 
   return (
-    <nav>
+    <nav className="w-full">
      {menu}
     </nav>
   );

@@ -8,7 +8,7 @@ const rootReducer = combineReducers(
     //All Reducers
     security: securityReducer,
     categories: categorieReducer,
-    nota:notaReducer
+    notes:notaReducer
  
   }
 )

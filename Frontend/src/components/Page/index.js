@@ -20,7 +20,7 @@ const Page = ({children, className, showHeader, showNavBar, title})=>{
   return (
     <div className="w-full h-5/6">
       {header}
-      <section className="h-full">
+      <section className="h-full overflow-auto">
         {children}
       </section>
       {navBar}
