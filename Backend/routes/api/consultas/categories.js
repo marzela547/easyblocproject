@@ -51,8 +51,14 @@ async createNewCategory(descripcion_cat,correo_use)
     }
   }
   
+  
+  async getByTitlte(titulo,correo) {
+    let filter = { "descripcion_cat": titulo,"correo_use": correo};
+    let result = await this.categoriesColl.findOne(filter);
+    return result;
 }
 
 
+}
 
 module.exports = Categories;

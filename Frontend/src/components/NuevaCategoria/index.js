@@ -2,16 +2,16 @@ import Page from '../Page';
 import TextBox from '../UI/TextBox';
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { publicAxios } from '../../store/utils/Axios';
-import {PrimaryButton} from '../UI/Button';
 import { useSelector, useDispatch} from 'react-redux';
+import { addCategorie, updCategorie, dltCategorie} from '../../store/reducers/categories/actions';
+const getSecurity = ({security})=>security;
 
 const NCategoria = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const txtCorreo= "kevin@gmail.com";
-    const categorie = "Verano";
-    let opc = 2;
+    const {user} = useSelector(getSecurity);
+    const categorie = "Primavera";
+    let opc = 1;
     let title;
     let boton;
     let btnDelete;
@@ -33,72 +33,18 @@ const NCategoria = () =>{
         }
         if(err==false){
           if(opc===1){
-            publicAxios.post(
-              'api/categories/newcategory',
-              {
-                  descripcion: txtCategorie,
-                  correo: txtCorreo
-              }
-              )
-              .then(
-              ({data}) => {
-                console.log(data)
-                window.alert("Categoría creada exitosamente");
-                //  navigate('/dashboard',{replace:true});
-              }
-              )
-              .catch(
-              (err)=>{
-                  console.log(err);
-              }
-              );
+
+            addCategorie(dispatch, txtCategorie, user.correo_usu, navigate, "/profile");
           }else
               {
-                publicAxios.put(
-                  'api/categories/updCategorie',
-                  {
-                      descripcion_cat: categorie,
-                      correo_usu: txtCorreo,
-                      actualizacion_cat: txtCategorie
-                  }
-                  )
-                  .then(
-                  ({data}) => {
-                    console.log(data)
-                    window.alert("Categoría guardada exitosamente");
-                    //  navigate('/dashboard',{replace:true});
-                  }
-                  )
-                  .catch(
-                  (err)=>{
-                      console.log(err);
-                  }
-                  );
-                  console.log(txtCorreo, categorie, txtCategorie);
+                updCategorie(dispatch, categorie, txtCategorie, user.correo_usu, navigate, "/profile");
+                  
               }
         }
     }
 
     const onChangeDelete = (e) =>{
-      publicAxios.delete(
-        'api/categories/deleteCategorie',
-        {
-            descripcion_cat: categorie,
-            correo_use: txtCorreo
-        }
-        )
-        .then(
-        ({data}) => {
-          console.log(data)
-          window.alert("Categoría eliminada exitosamente");
-          //  navigate('/dashboard',{replace:true});
-        }
-        )
-        .catch(
-        (err)=>{
-            console.log(err);
-        }
-        );
+      dltCategorie(dispatch, categorie, user.correo_usu,navigate, "/profile");
     }
 
     const onChangeHandler = (e)=>{

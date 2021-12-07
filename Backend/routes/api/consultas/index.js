@@ -23,9 +23,9 @@ router.get('/byid/:id', async (req, res, next)=>{
 
 //**********Eliminar 1 Categoria**********************************
 
-router.delete('/deleteCategorie', async (req, res, next)=>{
+router.delete('/deleteCategorie/:descripcion_cat/:correo_use', async (req, res, next)=>{
   try {
-    const {descripcion_cat, correo_use} = req.body;
+    const {descripcion_cat, correo_use} = req.params;
     const result = await categories.deleteCategorie(descripcion_cat, correo_use);
     console.log(result);
     return res.status(200).json({"msg":"Eliminado OK"});
@@ -129,12 +129,17 @@ router.post('/ccontrasena', async (req, res, next) => {
 /**************Nueva Categoria******************** */
 router.post('/newcategory', async (req, res, next) => {
   try {
-    console.log("entre");
     const {descripcion, correo} = req.body;
-    let cateAdded = await categories.createNewCategory(descripcion, correo);
-    console.log(cateAdded);
-    res.status(200).json({"msg":"Categoria Creado Satisfactoriamente"});
-    console.log("AQUI VOY")
+    
+    let exists = await categories.getByTitlte(descripcion, correo);
+    if(exists){
+        res.status(200).json({"msg":1});
+    }else{
+        let cateAdded = await categories.createNewCategory(descripcion, correo);
+        console.log(cateAdded);
+        res.status(200).json({"msg":0});
+    }
+    
   } catch (ex) {
     res.status(500).json({ "msg": "Error" });
     console.log("ERRRRRRROOOOOOORRRR")

@@ -99,8 +99,43 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.post('/login', async(req, res, next) => {
+  try {
+      const { email, pswd } = req.body;
+      let userLogged = await SecModel.getByEmail(email);
+      if (userLogged) {
+          const isPswdOk = await SecModel.comparePassword(
+              pswd,
+              userLogged.contrasena_usu
+          );
 
+          if (isPswdOk) {
+              // podemos validar la vigencia de la contraseña
+              delete userLogged.contrasena_usu;
+              delete userLogged.oldpasswords;
+              delete userLogged.lastlogin;
+              delete userLogged.lastpasswordchange;
+              delete userLogged.passwordexpires;
+              let payload = {
+                  jwt: jwt.sign({
+                          email: userLogged.email,
+                          _id: userLogged._id,
+                          roles: userLogged.roles,
+                      },
+                      process.env.JWT_SECRET, { expiresIn: '1d' }
+                  ),
+                  user: userLogged,
+              };
+              return res.status(200).json(payload);
+          }
+      }
+  } catch (ex) {
+      console.log(ex);
+      res.status(500).json({ msg: 'Error' });
+  }
+});
 
+/*
 router.post('/login', async (req, res, next)=>{
   try {
     const {email, pswd} = req.body;
@@ -137,7 +172,7 @@ router.post('/login', async (req, res, next)=>{
     res.status(500).json({"msg":"Error"});
   }
 });
-
+*/
 router.post('/signin', async (req, res, next) => {
   try {
     const { name, lastname, phone, email, password} = req.body;

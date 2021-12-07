@@ -10,7 +10,7 @@ const NavBar = ()=>{
     (<ul>
       <li><Link to="/nota"><FaStickyNote className="w-8 h-8" />Notas</Link></li>
       <li><Link to="/categoria"><FaCertificate className="w-8 h-8"/>Categorías</Link></li>
-      <li><Link to="/usuario"><FaUserEdit className="w-8 h-8" />Usuario</Link></li>
+      <li><Link to="/profile"><FaUserEdit className="w-8 h-8" />Mi Perfil</Link></li>
       <li><Link to="/salir"><FaSignOutAlt className="w-8 h-8"/>Salir</Link></li>
     </ul>) :
     (<ul>

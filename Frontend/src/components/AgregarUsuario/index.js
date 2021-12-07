@@ -3,14 +3,13 @@ import TextBox from '../UI/TextBox';
 import Password from '../UI/Password';
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { publicAxios } from '../../store/utils/Axios';
-import {PrimaryButton} from '../UI/Button';
 import { useSelector, useDispatch} from 'react-redux';
 import {validarCaracteresContrasena, 
         validarIgualdadContrasena,
         soloNumeros,
         validarCorreo,
         soloLetras} from '../../store/utils/Validaciones';
+import {doSignIn} from '../../store/reducers/security/actions';
 
 const NUsuario = () =>{
     const dispatch = useDispatch();
@@ -58,35 +57,16 @@ const NUsuario = () =>{
                         }
             
             if(err==false){
-                publicAxios.post(
-                    'api/sec/signin',
-                    {
-                        name: txtName,
-                        lastname: txtLastName, 
-                        phone: txtPhone,
-                        email: txtEmail,
-                        password: txtPasswordn
-                    }
-                    )
-                    .then(
-                    ({data}) => {
-                        setTxtEmail("");
+                doSignIn(dispatch, txtName, txtLastName, txtPhone, txtEmail, txtPasswordn, navigate, "/login");
+                        /*setTxtEmail("");
                         setTxtLastName("");
                         setTxtPasswordc("");
                         setTxtPasswordn("");
                         setTxtName("");
                         setTxtPhone("");
                         document.getElementById('mensajen').innerHTML = '';
-                        window.alert("Usuario creado correctamente");
-                        
-                        navigate('/login',{replace:true});
-                    }
-                    )
-                    .catch(
-                    (err)=>{
-                        console.log(err);
-                    }
-                    );
+                        */
+                  
             }
         }
     }

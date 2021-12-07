@@ -21,7 +21,7 @@ class Notes{
 
   //CONSULTAR 1 NOTA***************************************
   async getById(id){
-  const filter = { "_id": new ObjectID(id)};
+  const filter = { "": new ObjectID(id)};
   let buscarNota = await this.notesColl.findOne(filter);
   return buscarNota;
   }
