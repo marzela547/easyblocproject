@@ -34,17 +34,17 @@ const NCategoria = () =>{
         if(err==false){
           if(opc===1){
 
-            addCategorie(dispatch, txtCategorie, user.correo_usu, navigate, "/profile");
+            addCategorie(dispatch, txtCategorie, user.correo_usu, navigate, "/categories");
           }else
               {
-                updCategorie(dispatch, categorie, txtCategorie, user.correo_usu, navigate, "/profile");
+                updCategorie(dispatch, categorie, txtCategorie, user.correo_usu, navigate, "/categories");
                   
               }
         }
     }
 
     const onChangeDelete = (e) =>{
-      dltCategorie(dispatch, categorie, user.correo_usu,navigate, "/profile");
+      dltCategorie(dispatch, categorie, user.correo_usu,navigate, "/categories");
     }
 
     const onChangeHandler = (e)=>{

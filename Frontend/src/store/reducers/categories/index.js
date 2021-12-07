@@ -24,7 +24,7 @@ const initialState = {
           errors:[],
           items: [...state.items, ...payload.documents]
         }
-      case "CATEGORIES_LIST_CLEAR":
+      case "CATEGORIE_LIST_CLEAR":
         return{...initialState};
     default:
       return state;

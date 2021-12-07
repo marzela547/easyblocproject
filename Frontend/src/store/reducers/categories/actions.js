@@ -50,6 +50,7 @@ export const addCategorie = (dispatch, categorie, email, navigate, to)=>{
             }
           );
           dispatch({ type:"CATEGORIE_LIST_CLEAR", payload:null});
+          
           navigate(to);
       }
     })

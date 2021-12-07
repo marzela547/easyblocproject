@@ -35,7 +35,7 @@ async getAllCate(correo_usu){
 /***********************Actualizar Categoria***** */
 async updCategoria(descripcion_cat, correo_use, actualizacion_cat) {
     // UPDATE SWOT set swotMeta = 'Nuevo Valor' where _id = 'aId';
-    let filter = { correo_use: correo_use, descripcion_cat: descripcion_cat};
+    let filter = { correo_usu: correo_use, descripcion_cat: descripcion_cat};
     let result = await this.categoriesColl.updateOne(filter, {
         $set: { descripcion_cat: actualizacion_cat},
     });
@@ -47,7 +47,7 @@ async createNewCategory(descripcion_cat,correo_use)
     try{
       let category ={
         descripcion_cat:descripcion_cat,
-        correo_use:correo_use
+        correo_usu:correo_use
       }
       console.log()
       let result = await this.categoriesColl.insertOne(category);
