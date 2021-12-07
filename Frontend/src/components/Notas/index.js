@@ -18,7 +18,8 @@ const AgregarNota = () =>{
     let {items} = useSelector(getNotes);
  
     const cargar = () =>{
-        fetchNotesData(dispatch, user.correo_usu);
+        if(items.length ==0)
+            fetchNotesData(dispatch, user.correo_usu);
         console.log(items[0])
     }
 
@@ -31,7 +32,7 @@ const AgregarNota = () =>{
     const onChangeNavegar = (e)=>{
         e.preventDefault();
         e.stopPropagation();
-        if(e.target.name ==="categories"){
+        if(e.target.name ==="Categories"){
             navigate('/categories',{replace:true});
         }else{
             navigate('/addnote',{replace:true});
@@ -55,8 +56,8 @@ const AgregarNota = () =>{
             <button type="submit"><BsSearch className="text-black w-14"/></button> 
             </div>
             <ListaElementos elementos = {items}/>
-            <button onClick={onChangeNavegar} name="categories" type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Categorías</button>
-            <button onClick={onChangeNavegar} name="new" type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Agregar Nota</button>
+            <button onClick={onChangeNavegar} name="Categories" type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Categorías</button>
+            <button onClick={onChangeNavegar} name="New" type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3">Agregar Nota</button>
         </div>
     </div>
     </div>

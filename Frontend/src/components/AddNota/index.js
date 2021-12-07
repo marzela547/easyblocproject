@@ -13,12 +13,12 @@ import { useSelector, useDispatch} from 'react-redux';
 import { cargarCatCmb } from '../../store/reducers/notas/action';
 import {FaBars,FaFont,FaAlignCenter,FaRegWindowClose} from "react-icons/fa"
 
-
-
 const getSecurity = ({security})=>security;
+const getCategories = ({categories})=>categories;
+
 const AddNota = ()=>{
   const nota = useSelector(({notes})=>notes);
-  const{hasMore, items} = nota;
+  const {items} = useSelector(getCategories);
   const {user} = useSelector(getSecurity);
   const [txtTitulo, settxtTitulo] = useState("");
   const [txtNota, settxtNota] = useState("");
@@ -27,7 +27,6 @@ const AddNota = ()=>{
   const navigate = useNavigate();
   let err;
   let expre;
-  let correo = 'kevin@gmail.com'//'marcelazelaya547@yahoo.com';
   let cnestilo="w-full h-96 mx-auto ";
   let color="";
   let posicion="";
@@ -47,12 +46,13 @@ const AddNota = ()=>{
   }
 
   const cargar = () => {
-    fetchCategoriesData(dispatch, user.correo_usu);
+    if(items.length ==0)
+      fetchCategoriesData(dispatch, user.correo_usu);
+    console.log(items);
   }
   useEffect(()=>{ 
-    if (hasMore) {
       cargar()
-    }
+  
 
     }, []);
 
@@ -87,8 +87,6 @@ const AddNota = ()=>{
 
       console.log(txtType)
     }
-
-    
   }
 
     const onChangeHandler = (e)=> {

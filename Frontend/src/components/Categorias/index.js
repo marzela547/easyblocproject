@@ -16,7 +16,8 @@ const AgregarCategoria = () =>{
     let {items} = useSelector(getCategories);
 
     const cargar = () =>{
-        fetchCategoriesData(dispatch, user.correo_usu);
+        if(items.length ==0)    
+            fetchCategoriesData(dispatch, user.correo_usu);
         
     }
     

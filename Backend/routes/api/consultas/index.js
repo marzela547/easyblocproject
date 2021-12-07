@@ -28,6 +28,18 @@ router.post('/new', async(req, res, next) => {
     }
 }); // /new
 
+router.delete('/deleteNote/:id', async (req, res, next)=>{
+  try {
+    const {id} = req.params;
+    const result = await notes.deleteOneNote(id);
+    console.log(result);
+    return res.status(200).json({"msg":"Eliminado OK"});
+  } catch (ex) {
+    console.log(ex);
+    return res.status(500).json({ msg: "Error al procesar petición" });
+  }
+})
+
 router.get('/allNotas', async (req, res, next)=>{
     try{
     const {correo_usu} = req.body;
@@ -53,9 +65,20 @@ router.get('/byid/:id', async (req, res, next)=>{
 /********************************************************** */
 router.get('/getOneCategorie/:descripcion_cat/:correo_usu', async(req, res, next)=>{
   try {
-    const {descripcion_cat} = req.params;
+    const {descripcion_cat,correo_usu} = req.params;
     const oneCategorieEntry = await categories.getByTitlte(descripcion_cat, correo_usu);
     return res.status(200).json(oneCategorieEntry);
+  } catch (ex) {
+    console.log(ex);
+    return res.status(500).json({ msg: "Error al procesar petición" });
+  }
+})
+/************************* */
+router.get('/OneNota/:id', async(req, res, next)=>{
+  try {
+    const {id} = req.params;
+    const oneNoteEntry = await notes.getById(id);
+    return res.status(200).json(oneNoteEntry);
   } catch (ex) {
     console.log(ex);
     return res.status(500).json({ msg: "Error al procesar petición" });
@@ -114,18 +137,6 @@ router.get('/bycategoria/:categoria', async(req, res, next) => {
                 return res.status(500).json({ msg: "Error al procesar petición" });
             }});
 
-router.post('/comparar', async (req, res, next) => {
-  try {
-    console="llego"
-    const {correo,acontrasena} = req.body;
-    let userLogged = await SecModel.getByEmail(correo);
-    const isPswdOk = await SecModel.comparePassword(acontrasena, userLogged.contrasena_usu);
-    if (isPswdOk)
-    {
-      res.status(200).json({"msg":"correct"});
-    }else{
-      res.status(200).json({"msg":"error"});
-
   router.put('/updNota/:id', async(req, res, next) => {
     try {
         const { id } = req.params;
@@ -143,26 +154,10 @@ router.post('/comparar', async (req, res, next) => {
         console.log(ex);
         return res.status(500).json({ msg: 'Error al procesar petición' });
     }
-  } catch (ex) {
-    res.status(500).json({ "msg": "Error" });
-  }
+ 
+    
 });
 
-router.post('/ccontrasena', async (req, res, next) => {
-  try {
-    
-    const {correo,ncontrasena} = req.body;
-    let usu = await SecModel.cambiarContra(correo, ncontrasena);
-    if (usu)
-    {
-      res.status(200).json({"msg":1});
-    }else{
-      res.status(200).json({"msg":0});
-    }
-  } catch (e) {
-    res.status(500).json({ "msg": "Error al editar la contraseña" });
-  }
-});
 /**************Nueva Categoria******************** */
 router.post('/newcategory', async (req, res, next) => {
   try {
@@ -182,19 +177,7 @@ router.post('/newcategory', async (req, res, next) => {
     console.log("ERRRRRRROOOOOOORRRR")
   }
 });
-/*
-router.put('/updatenote', async (req, res, next) => {
-  try {
-    const {id,titulo,descripcion,categoria,usuario} = req.body;
-    let imagenes = ["img1","img2","img3"]
-    let noteupdate = await notes.changeNote(id,titulo,descripcion, imagenes,categoria,usuario);
-    delete noteupdate;
-    res.status(200).json({"msg":"Nota Editada Satisfactoriamente"});
-  } catch (ex) {
-    res.status(500).json({ "msg": "Error" });
-  }
-});
-*/
+
 
 router.get('/allCate/:correo_usu', async (req, res, next)=>{
     try{

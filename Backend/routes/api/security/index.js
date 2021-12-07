@@ -74,7 +74,6 @@ router.post('/comparar', async (req, res, next) => {
     res.status(500).json({ "msg": "Error" });
   }
 });
-
 router.post('/ccontrasena', async (req, res, next) => {
   try {
     
@@ -234,20 +233,51 @@ router.post('/profile', async(req, res, next)=>{
 router.post('/login', async(req, res, next)=>{});
 //router.post('/signin', async(req, res, next)=>{});
 
+
 router.post('/passrecovery', async(req, res, next)=>{
   const {correo} = req.body;
   let segundos = 60;
   let codigo = SecModel.random(1000,9999);
-
-  console.log(setInterval())
-
-  let usu = await SecModel.getByEmail(correo);
-  if(usu){
-    cache=usu.correo_usu;
-    mailSender(usu.correo_usu, "Recuperación de contraseña", "Código de verificación: "+codigo);
-  }
-
-  res.status(200).json({"msg":"Correo enviado correctamente"});
+  cod=codigo;
+  cor=correo;
+  mailSender(correo, "Recuperación de contraseña", "Código de verificación: "+codigo);
+  res.status(200).json({"msg":"Env","correo":correo,"codigo":codigo});
 })
+router.get('/getdatos', (req, res, next) => {
+  try {
+    res.status(200).json({"cod":cod,"correo":cor});
+  } catch (e) {
+    res.status(500).json({ "msg": "Err" });
+  }
+});
 
+router.post('/getemail', async (req, res, next) => {
+  try {
+    const {correo} = req.body;
+    let user = await SecModel.getByEmail(correo);
+    if(!user==""){
+      res.status(200).json({"msg":user});
+    }else{
+      res.status(200).json({"msg":"error"});
+    }
+  } catch (e) {
+    res.status(500).json({ "msg": "Err" });
+  }
+});
+router.post('/comparar', async (req, res, next) => {
+  try {
+    const {correo,acontrasena} = req.body;
+    let userLogged = await SecModel.getByEmail(correo);
+    const isPswdOk = await SecModel.comparePassword(acontrasena, userLogged.contrasena_usu);
+    console.log(isPswdOk);
+    if (isPswdOk)
+    {
+      res.status(200).json({"msg":"correct"});
+    }else{
+      res.status(200).json({"msg":"error"});
+    }
+  } catch (ex) {
+    res.status(500).json({ "msg": "Error" });
+  }
+});
 module.exports = router;

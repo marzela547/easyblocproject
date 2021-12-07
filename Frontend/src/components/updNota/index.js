@@ -9,20 +9,24 @@ import TextBox from '../UI/TextBox';
 import { PrimaryButton } from '../UI/Button';
 import ComboBox from '../UI/ComboBox';
 import TextArea from '../UI/TextArea';
-import { UpdNot } from '../../store/reducers/notas/action';
-import { cargarCatCmb } from '../../store/reducers/notas/action';
+import { UpdNot, cargarData, dltNota } from '../../store/reducers/notas/action';
+import { fetchCategoriesData, updCategorie } from '../../store/reducers/categories/actions';
 import { useSelector, useDispatch} from 'react-redux';
 let combo = [];
 
 
 const getSecurity = ({security})=>security;
+const getCategories = ({categories})=>categories;
+const getNotes =({notes})=>notes;
 const UpdNota = ()=>{
-  const nota = useSelector(({nota})=>nota);
-  const{hasMore,items} = nota;
+    
+    const {notes}= useSelector(getNotes);
     const [txtTitulo, settxtTitulo] = useState("");
     const [txtNota, settxtNota] = useState("");
     const [txtType, setTxtType] = useState('S');
     const[TxtEstilos,setTxtEstilos] = useState("");
+    const {items} = useSelector(getCategories);
+    const {user} = useSelector(getSecurity);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let err;
@@ -53,50 +57,20 @@ const UpdNota = ()=>{
     
     
     const cargar = () => {
-      cargarCatCmb(dispatch,correo)
+      if(items.length ==0)
+      fetchCategoriesData(dispatch, user.correo_usu);
+      cargarData(dispatch,id);
+      settxtTitulo(notes.titulo_Not)
+      settxtNota(notes.descripcion_Not)
+      setTxtType(notes.categoria_Not)
+      setTxtEstilos(notes.estilos_not)
+      
+     console.log(notes);
+     console.log("holaaaaaaaaa")
     }
     useEffect(()=>{
   
-      if (hasMore) {
-        cargar()
-      }
-       
-        dispatch(
-            {
-              type:"NOTAS_CARGADA",
-              payload:null
-            }
-          )
-
-          privateAxios.get(`/api/notes/OneNota/${id}`)
-          .then(({data})=>{
-           settxtTitulo(data.titulo_Not)
-           settxtNota(data.descripcion_Not)
-           setTxtType(data.categoria_Not)
-           setTxtEstilos(data.estilos_not)
-            dispatch(
-              {
-                type:"NOTAS_CARGADA_SUCCESS",
-                payload: data
-              }
-            )
-          })
-          .catch((err)=>{
-            console.log(err);
-            dispatch(
-              {
-                type:"NOTAS_CARGADA_ERROR",
-                payload: ["Error al traer Info"]
-              }
-            )
-          });
-
-
-//************************************************************************************************ */
-      
-
-
-
+        cargar();
     }, []);
 
 
@@ -109,7 +83,8 @@ const UpdNota = ()=>{
     e.preventDefault();
     e.stopPropagation();
 
-    document.getElementById('mensajet').innerHTML = '';
+    if(e.target.name ==="Guardar"){
+      document.getElementById('mensajet').innerHTML = '';
     document.getElementById('mensajea').innerHTML = '';
     expre=/^\s*$/;
     
@@ -128,12 +103,14 @@ const UpdNota = ()=>{
       err=false;
     }
     if(err==false){
-      UpdNot(dispatch,id, txtTitulo,  txtNota, txtType, cnestilo,"marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
+      UpdNot(dispatch,id, txtTitulo,  txtNota, txtType, cnestilo,user.correo_usu,navigate, "/notes" )
   
      
     }
+    }else{
+        dltNota(dispatch, id, navigate, "/notes");
+    }
 
-    
   }
 
     const onChangeHandler = (e)=> {
@@ -222,10 +199,12 @@ const UpdNota = ()=>{
                                   
                                    
                                         <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-black text-white">
-                                            <PrimaryButton onClick={onBtnClick}>Guardar</PrimaryButton>
+                                            <PrimaryButton name="Guardar" onClick={onBtnClick}>Guardar</PrimaryButton>
                                           </div>
 
-                                   
+                                          <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-black text-white">
+                                            <PrimaryButton name="Eliminar" onClick={onBtnClick}>Eliminar</PrimaryButton>
+                                          </div>
                             
                     </div>
                 </div>

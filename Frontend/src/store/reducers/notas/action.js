@@ -89,12 +89,12 @@ export const cargarData = (dispatch,id)=>{
     }
   )
 
-  privateAxios.get(`/api/notes/OneNota/${id}`)
+  privateAxios.get(`api/notes/OneNota/${id}`)
   .then(({data})=>{
     console.log(data);
     dispatch(
       {
-        type:"NOTAS_CARGADA_SUCCESS",
+        type:"NOTA_CARGADA_SUCCESS",
         payload: data
       }
     )
@@ -109,33 +109,30 @@ export const cargarData = (dispatch,id)=>{
     )
   });
 }
-/********************************CARGAR CATEGORIAS******************************************* */  
-export const cargarCatCmb = (dispatch,correo_usu)=>{
-  dispatch(
-    {
-      type:"NOTAS_CARGADA",
-      payload:null
-    }
-  )
+/********************************ELIMINAR NOTA******************************************* */  
 
-  privateAxios.get(`api/categories/allCate/${correo_usu}`)
-  .then(({data})=>{
-    console.log(data);
-    dispatch(
-      {
-        type:"NOTAS_CARGADA_SUCCESS",
-        payload: data
-      }
-    )
-  })
-  .catch((err)=>{
-    console.log(err);
-    dispatch(
-      {
-        type:"NOTAS_CARGADA_ERROR",
-        payload: ["Error al traer Info"]
-      }
-    )
-  });
+export const dltNota = (dispatch, id, navigate, to)=>{
+  dispatch(
+    {type:"NOTA_DLT_START", payload:null}
+  );
+  privateAxios.delete('api/notes/deleteNote/'+id)
+    .then(({data})=>{
+      console.log(data);
+      dispatch(
+        {
+          type:"NOTA_DLT_SUCCESS",
+          payload:null
+        }
+      );
+      dispatch({ type:"NOTA_LIST_CLEAR", payload:null});
+      navigate(to);
+    })
+    .catch((err)=>{
+      console.log(err);
+      dispatch(
+        {type:"NOTA_DLT_ERROR", payload:null}
+      )
+    });
+
+    
 }
-  
