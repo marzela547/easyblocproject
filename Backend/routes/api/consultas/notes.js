@@ -29,24 +29,27 @@ class Notes {
     }*/
 
 
-    async addNew(titulo_Not, categoria_Not, descripcion_Not, correo_usu) {
+    async addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not, correo_usu) {
         let newNota = {
             titulo_Not,
             categoria_Not,
             descripcion_Not,
+            estilos_not,
             correo_usu,
+            
         }
         let result = await this.notesColl.insertOne(newNota);
         return result;
     }
 
 
-    async updNote(id,titulo_Not,descripcion_Not,categoria_Not) {
+    async updNote(id,titulo_Not,descripcion_Not,categoria_Not,estilos_not) {
       try {
         let result = await this.notesColl.updateOne({ "_id": new ObjectID(id)},{$set:{
             titulo_Not:titulo_Not,
             descripcion_Not:descripcion_Not,
             categoria_Not:categoria_Not,
+            estilos_not:estilos_not
                                                               }});
         console.log(result)
         return result;

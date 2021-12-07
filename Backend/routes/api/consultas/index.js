@@ -13,12 +13,13 @@ router.post('/new', async(req, res, next) => {
             titulo_Not,
             categoria_Not,
             descripcion_Not,
+            estilos_not,
             correo_usu
             
         } = req.body;
         
         // validaciones
-        const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,correo_usu);
+        const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu);
         console.log(result);
         res.status(200).json({ msg: "Agregado Satisfactoriamente" });
     } catch (ex) {
@@ -57,9 +58,10 @@ router.get('/allNotas', async (req, res, next)=>{
             titulo_Not,
             categoria_Not,
             descripcion_Not,
+            estilos_not
             
         } = req.body;
-        const result = await notes.updNote(id,titulo_Not,descripcion_Not,categoria_Not);
+        const result = await notes.updNote(id,titulo_Not,descripcion_Not,categoria_Not,estilos_not);
         console.log(result);
         res.status(200).json({ msg: 'Modificado OK' });
     } catch (ex) {
