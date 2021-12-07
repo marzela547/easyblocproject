@@ -32,7 +32,7 @@ function App() {
             <Route path="/remail" element={<Remail />} />
             <Route path="/rcodigo" element={<Rcodigo />} />
             <Route path="/categories_list" element={<CategoriesList/>} />
-            <Route path="/Nota" element={<Nota />} />
+            <Route path="/notes" element={<Nota />} />
             <Route path="/categories" element={<Categoria />} />
           </Routes>
         </div>

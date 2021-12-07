@@ -19,7 +19,16 @@ router.get('/byid/:id', async (req, res, next)=>{
   }
 }); 
 /********************************************************** */
-
+router.get('/getOneCategorie/:descripcion_cat/:correo_usu', async(req, res, next)=>{
+  try {
+    const {descripcion_cat} = req.params;
+    const oneCategorieEntry = await categories.getByTitlte(descripcion_cat, correo_usu);
+    return res.status(200).json(oneCategorieEntry);
+  } catch (ex) {
+    console.log(ex);
+    return res.status(500).json({ msg: "Error al procesar petición" });
+  }
+})
 //**********Eliminar 1 Categoria**********************************
 
 router.delete('/deleteCategorie/:descripcion_cat/:correo_use', async (req, res, next)=>{

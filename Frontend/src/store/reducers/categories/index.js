@@ -2,7 +2,8 @@ const initialState = {
     items:[],
     fetching:false,
     hasErrors:false,
-    errors:[]
+    errors:[],
+    categorie: {}
   }
   
   const categorieReducer = (state=initialState, action)=>{
@@ -23,6 +24,14 @@ const initialState = {
           hasErrors:false,
           errors:[],
           items: [...state.items, ...payload.documents]
+        }
+      case "CATEGORIE_FETCH_SUCCESS":
+        return{
+          ...state,
+          fetching:false,
+          hasErrors:false,
+          errors:[],
+          categorie: payload.categorie
         }
       case "CATEGORIE_LIST_CLEAR":
         return{...initialState};

@@ -113,36 +113,4 @@ export const updCategorie = (dispatch, oldCategorie,newCategorie, email, navigat
           {type:"CATEGORIE_DLT_ERROR", payload:null}
         )
       });
-
-      
-  }
-
-  export const fetchOneCategorieData=(dispatch, categorie, correo,navigate, to)=>{
-    dispatch(
-      {
-        type:"CATEGORIES_START_FETCH",
-        payload:null
-      }
-    )
-    privateAxios.get(`api/categories/getOneCategorie/:`+categorie+"/:"+correo)
-    .then(({data})=>{
-      console.log(data);
-      dispatch(
-        {
-          type:"CATEGORIE_FETCH_SUCCESS",
-          payload: data
-        }
-      ) 
-
-      navigate(to);
-    })
-    .catch((err)=>{
-      console.log(err);
-      dispatch(
-        {
-          type:"CATEGORIES_FETCH_ERROR",
-          payload: ["Error al traer información"]
-        }
-      )
-    });
   }
