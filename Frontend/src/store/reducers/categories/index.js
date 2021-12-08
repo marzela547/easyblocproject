@@ -31,7 +31,7 @@ const initialState = {
           fetching:false,
           hasErrors:false,
           errors:[],
-          categorie: payload.categorie
+          categorie: payload
         }
       case "CATEGORIE_LIST_CLEAR":
         return{...initialState};

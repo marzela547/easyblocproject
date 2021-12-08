@@ -43,6 +43,7 @@ const Remail = ()=>{
                 'api/sec/passrecovery',
                 {
                   correo: txtCorreo,
+                  enviar: "enviar"
                 }
               )
               .then(

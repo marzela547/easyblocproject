@@ -1,17 +1,16 @@
 import Page from '../Page';
 import TextBox from '../UI/TextBox';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch} from 'react-redux';
 import { addCategorie, updCategorie, dltCategorie} from '../../store/reducers/categories/actions';
 const getSecurity = ({security})=>security;
-
+const getCategories = ({categories})=>categories;
 const NCategoria = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {user} = useSelector(getSecurity);
-    const categorie = "Primavera";
-    let opc = 1;
+    const {categorie} = useSelector(getCategories);
     let title;
     let boton;
     let btnDelete;
@@ -32,12 +31,12 @@ const NCategoria = () =>{
           document.getElementById('mensajen').innerHTML = '';
         }
         if(err==false){
-          if(opc===1){
+          if(categorie.length <1){
 
             addCategorie(dispatch, txtCategorie, user.correo_usu, navigate, "/categories");
           }else
               {
-                updCategorie(dispatch, categorie, txtCategorie, user.correo_usu, navigate, "/categories");
+                updCategorie(dispatch, categorie.descripcion_cat, txtCategorie, user.correo_usu, navigate, "/categories");
                   
               }
         }
@@ -52,16 +51,25 @@ const NCategoria = () =>{
         e.stopPropagation();
         setTxtCategorie(e.target.value);
       }
+      if(categorie.length <1){
+        title = "Nueva Categoría";
+        boton = "Crear";
+        
+      }else{
+        title = "Modificar Categoría";
+        boton = "Guardar";
+        btnDelete = <button onClick={onChangeDelete} type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3" >Eliminar</button>
+        
+      }
 
-    if(opc ===1){
-      title = "Nueva Categoría";
-      boton = "Crear";
+      const cargar=()=>{
       
-    }else{
-      title = "Modificar Categoría";
-      boton = "Guardar";
-      btnDelete = <button onClick={onChangeDelete} type="button" className=" bg-black lg:hover:bg-gray-800 text-white font-bold w-full h-12 my-3" >Eliminar</button>
-    }
+        if(!(categorie.length<1))
+        setTxtCategorie(categorie.descripcion_cat);
+      }
+    useEffect(()=>{
+      cargar();
+    }, []);
 
     return(
         <Page showHeader={true} title="Iniciar Sesión" showNavBar>

@@ -63,10 +63,10 @@ router.get('/byid/:id', async (req, res, next)=>{
   }
 }); 
 /********************************************************** */
-router.get('/getOneCategorie/:descripcion_cat/:correo_usu', async(req, res, next)=>{
+router.get('/getOneCategorie/:id', async(req, res, next)=>{
   try {
-    const {descripcion_cat,correo_usu} = req.params;
-    const oneCategorieEntry = await categories.getByTitlte(descripcion_cat, correo_usu);
+    const {id} = req.params;
+    const oneCategorieEntry = await categories.getByTitlte(id);
     return res.status(200).json(oneCategorieEntry);
   } catch (ex) {
     console.log(ex);

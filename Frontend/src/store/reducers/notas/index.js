@@ -2,9 +2,11 @@ const initialState = {
     hasMore:true,
     items:[],
     hasErrors:false,
+    isFetching: false,
     errors:[],
     prueba:'4',
-    notes: {}
+    notes: {},
+    idNote: 0
   }
   const notaReducer = (state=initialState, action)=>{
     const {type, payload} = action;
@@ -34,6 +36,16 @@ const initialState = {
             error:[],
             items:[...state.items, ...payload.documents],
             hasMore: true
+          }
+        case "M_NOTA":
+          //let dato = payload;
+          //localStorage.setItem("id", JSON.stringify(dato))
+            return {
+              ...state,
+              isFetching: false,
+              hasErrors: true,
+              errors: [payload],
+              idNote: payload
           }
         case "NOTA_LIST_CLEAR":
           return {...initialState};

@@ -38,27 +38,7 @@ class Sec {
       throw(ex);
     }
   }
-/*
-  async createNewUserK( email) {
-    try {
-      let user = {
-        email: email,
-        //password: await bcrypt.hash(password, 10),
-        lastlogin: null,
-        lastpasswordchange: null,
-        passwordexpires: new Date().getTime() + (90 * 24 * 60 * 60 * 1000), 
-        oldpasswords: [],
-        roles:["public"]
-      }
-      let result = await this.secColl.insertOne(user);
-      //console.log(result);
-      return result;
-    } catch(ex) {
-      console.log(ex);
-      throw(ex);
-    }
-  }
-*/
+
   async getByEmail(email){
     const filter = {"correo_usu": email};
     return await this.secColl.findOne(filter);

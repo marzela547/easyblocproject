@@ -50,6 +50,7 @@ const Rcontrasen = ()=>{
         {
           correo: txtCorreo,
           ncontrasena: txtPasswordn,
+        
         }
       )
       .then(
@@ -65,7 +66,7 @@ const Rcontrasen = ()=>{
           console.log(err);
         }
       );
- navigate('/',{replace:true});
+ navigate('/notes',{replace:true});
     }else{
     }
   };

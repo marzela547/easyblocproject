@@ -8,6 +8,7 @@ const mailSender = require('../../../utils/mailer');
 const GitHubStrategy = require('passport-github').Strategy;
 const dotenv = require('dotenv');
 const session = require('express-session');
+let codigo;
 /*
 router.use(session({
   secret: process.env.keySecret,
@@ -134,44 +135,7 @@ router.post('/login', async(req, res, next) => {
   }
 });
 
-/*
-router.post('/login', async (req, res, next)=>{
-  try {
-    const {email, pswd} = req.body;
-    //Validar los datos
-    let userLogged = await SecModel.getByEmail(email);
-    if (userLogged) {
-      const isPswdOk = await SecModel.comparePassword(pswd, userLogged.password);
-      if (isPswdOk) {
-        // podemos validar la vigencia de la contraseña
-        delete userLogged.password;
-        delete userLogged.oldpasswords;
-        delete userLogged.lastlogin;
-        delete userLogged.lastpasswordchange;
-        delete userLogged.passwordexpires;
-        let payload = {
-          jwt: jwt.sign(
-            {
-              email: userLogged.email,
-              _id: userLogged._id,
-              roles: userLogged.roles
-            },
-            process.env.JWT_SECRET,
-            {expiresIn:'1d'}
-          ),
-          user: userLogged
-        };
-        return res.status(200).json(payload);
-      }
-    }
-    console.log({email, userLogged});
-    return res.status(400).json({msg: "Credenciales no son Válidas"});
-  }catch (ex){
-    console.log(ex);
-    res.status(500).json({"msg":"Error"});
-  }
-});
-*/
+
 router.post('/signin', async (req, res, next) => {
   try {
     const { name, lastname, phone, email, password} = req.body;
@@ -230,19 +194,23 @@ router.post('/profile', async(req, res, next)=>{
   res.status(200).json(usu);
 });
 
-router.post('/login', async(req, res, next)=>{});
-//router.post('/signin', async(req, res, next)=>{});
-
 
 router.post('/passrecovery', async(req, res, next)=>{
-  const {correo} = req.body;
-  let segundos = 60;
-  let codigo = SecModel.random(1000,9999);
+  const {correo, enviar} = req.body;
+  let segundos = 20000;
+  codigo = SecModel.random(1000,9999);
   cod=codigo;
   cor=correo;
   mailSender(correo, "Recuperación de contraseña", "Código de verificación: "+codigo);
   res.status(200).json({"msg":"Env","correo":correo,"codigo":codigo});
-})
+
+  setInterval(()=>{
+    codigo = SecModel.random(1000,9000);
+    console.log(codigo);
+    cod=codigo;
+  },segundos);
+});
+
 router.get('/getdatos', (req, res, next) => {
   try {
     res.status(200).json({"cod":cod,"correo":cor});
@@ -264,6 +232,7 @@ router.post('/getemail', async (req, res, next) => {
     res.status(500).json({ "msg": "Err" });
   }
 });
+
 router.post('/comparar', async (req, res, next) => {
   try {
     const {correo,acontrasena} = req.body;

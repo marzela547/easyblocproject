@@ -117,14 +117,14 @@ export const updCategorie = (dispatch, oldCategorie,newCategorie, email, navigat
       
   }
 
-  export const fetchOneCategorieData=(dispatch, categorie, correo,navigate, to)=>{
+  export const fetchOneCategorieData=(dispatch, id,navigate, to)=>{
     dispatch(
       {
         type:"CATEGORIES_START_FETCH",
         payload:null
       }
     )
-    privateAxios.get(`api/categories/getOneCategorie/:`+categorie+"/:"+correo)
+    privateAxios.get(`api/categories/getOneCategorie/`+id)
     .then(({data})=>{
       console.log(data);
       dispatch(

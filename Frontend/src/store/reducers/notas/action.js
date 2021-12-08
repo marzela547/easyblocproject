@@ -81,7 +81,7 @@ export const UpdNot = (dispatch,id, titulo_Not, descripcion_Not, categoria_Not,e
 
 
 /*********************************************************************************************************************************** */
-export const cargarData = (dispatch,id)=>{
+export const cargarData = (dispatch,id, navigate, to)=>{
   dispatch(
     {
       type:"NOTAS_CARGADA",
@@ -98,6 +98,7 @@ export const cargarData = (dispatch,id)=>{
         payload: data
       }
     )
+    navigate(to)
   })
   .catch((err)=>{
     console.log(err);
@@ -135,4 +136,14 @@ export const dltNota = (dispatch, id, navigate, to)=>{
     });
 
     
+}
+
+export const almacenar = (dispatch, id, navigate, to)=>{
+  dispatch(
+    {
+      type:"M_NOTA", payload: id
+    }
+  )
+
+  navigate(to);
 }

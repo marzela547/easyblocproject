@@ -23,7 +23,7 @@ export const doLogin = (dispatch, txtCorreo, txtPassword, navigate) => {
             payload: data,
           }
         );
-        navigate('/profile', { replace: true });
+        navigate('/notes', { replace: true });
       }
     )
     .catch(

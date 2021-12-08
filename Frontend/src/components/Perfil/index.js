@@ -25,10 +25,10 @@ const Perfil = () =>{
             <div className=" flex-col items-center my-10 bg-gray-200 w-11/12 h-auto flex mx-auto p-5">
                 <h1 className="text-2xl font-bold">Perfil</h1>
                 <hr className=" w-full bg-gray-500 my-3"/>
-                <label className=" bg-white w-full text-center text-xl h-10">
+                <label className="  w-full text-center text-xl">
                   {user.nombre_usu+" "+user.apellido_usu}
                 </label>
-                <label className=" text-xl my-3">
+                <label className=" text-xl my-5">
                   {user.correo_usu}
                 </label>
                 <label className=" text-xl">

@@ -20,7 +20,8 @@ const getCategories = ({categories})=>categories;
 const getNotes =({notes})=>notes;
 const UpdNota = ()=>{
     
-    const {notes}= useSelector(getNotes);
+    const {notes} = useSelector(getNotes);
+    const {idNote} = useSelector(getNotes);
     const [txtTitulo, settxtTitulo] = useState("");
     const [txtNota, settxtNota] = useState("");
     const [txtType, setTxtType] = useState('S');
@@ -58,8 +59,9 @@ const UpdNota = ()=>{
     
     const cargar = () => {
       if(items.length ==0)
-      fetchCategoriesData(dispatch, user.correo_usu);
-      cargarData(dispatch,id);
+        fetchCategoriesData(dispatch, user.correo_usu);
+      console.log(idNote);
+      
       settxtTitulo(notes.titulo_Not)
       settxtNota(notes.descripcion_Not)
       setTxtType(notes.categoria_Not)

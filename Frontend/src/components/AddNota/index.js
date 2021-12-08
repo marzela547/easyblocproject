@@ -16,8 +16,9 @@ import {FaBars,FaFont,FaAlignCenter,FaRegWindowClose} from "react-icons/fa"
 const getSecurity = ({security})=>security;
 const getCategories = ({categories})=>categories;
 
+
 const AddNota = ()=>{
-  const nota = useSelector(({notes})=>notes);
+
   const {items} = useSelector(getCategories);
   const {user} = useSelector(getSecurity);
   const [txtTitulo, settxtTitulo] = useState("");
@@ -83,7 +84,7 @@ const AddNota = ()=>{
       err=false;
     }
     if(err==false){
-      addNewNota(dispatch, txtTitulo, txtType, txtNota,cnestilo, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
+      addNewNota(dispatch, txtTitulo, txtType, txtNota,cnestilo, user.correo_usu,navigate, "/ccontrasena" )
 
       console.log(txtType)
     }
