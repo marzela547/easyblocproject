@@ -15,13 +15,16 @@ router.post('/new', async(req, res, next) => {
             descripcion_Not,
             estilos_not,
             correo_usu
-            
         } = req.body;
-        
+        let exists = await notes.getByTitlte(titulo_Not, correo_usu);
         // validaciones
-        const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu);
-        console.log(result);
-        res.status(200).json({ msg: "Agregado Satisfactoriamente" });
+        if(exists){
+          res.status(200).json({"msg":1});
+        }else{
+          const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu);
+          console.log(result);
+          res.status(200).json({"msg":0});
+        }
     } catch (ex) {
         console.log(ex);
         return res.status(500).json({ msg: "Error al procesar petición" });
@@ -127,11 +130,11 @@ router.put('/updCategorie', async(req, res, next) => {
   });
   /******************************************************************** */
   //********consultar notas por categoria */
-router.get('/bycategoria/:categoria', async(req, res, next) => {
+router.get('/getNotesFilter/:categoria_Not/:correo_usu', async(req, res, next) => {
   try {
-      const { categoria } = req.params;
-      const swots = await Swot.getBycategoria(type, req._id);
-                return res.status(200).json(swots);
+      const { categoria_Not, correo_usu} = req.params;
+      const filtro = await notes.getAllNotasCategories(categoria_Not, correo_usu);
+                return res.status(200).json(filtro);
             } catch (ex) {
                 console.log(ex);
                 return res.status(500).json({ msg: "Error al procesar petición" });
@@ -188,6 +191,34 @@ router.get('/allCate/:correo_usu', async (req, res, next)=>{
     }catch(ex){
       console.log(ex);
       return res.status(500).json({msg:"Error al procesar petición"});
+    }
+  });
+
+  router.post('/findcategory', async (req, res, next) => {
+    try {
+      const {descripcion, correo} = req.body;
+      let exists = await categories.getByTitlte(descripcion, correo);
+      if(exists){
+          res.status(200).json({"msg":1});
+      }else{
+          res.status(200).json({"msg":0});
+      }
+    } catch (ex) {
+      res.status(500).json({ "msg": "Error" });
+    }
+  });
+
+  router.post('/findnote', async (req, res, next) => {
+    try {
+      const {nombre, correo} = req.body;
+      let exists = await notes.getByTitlte(nombre, correo);
+      if(exists){
+          res.status(200).json({"msg":1});
+      }else{
+          res.status(200).json({"msg":0});
+      }
+    } catch (ex) {
+      res.status(500).json({ "msg": "Error" });
     }
   });
 

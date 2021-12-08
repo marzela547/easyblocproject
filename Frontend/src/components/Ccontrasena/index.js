@@ -137,7 +137,7 @@ const Ccontrasen = ()=>{
             onChange={onChangeHandler}
             name="ccontrasena"
           />
-          <button  onClick={onBtnClick} type="button" className=" bg-black text-white font-bold w-full h-12" >Iniciar Sesión </button>
+          <button  onClick={onBtnClick} type="button" className=" bg-black text-white font-bold w-full h-12" >Guardar Cambios </button>
         </div>
       </div>
     </Page>

@@ -59,7 +59,7 @@ async createNewCategory(descripcion_cat,correo_use)
   
   /***********Una categoria************ */
   async getByTitlte(id) {
-    let filter = { "_id": ObjectID(id)};
+    let filter = { descripcion_cat: id};
     let result = await this.categoriesColl.findOne(filter);
     return result;
 }

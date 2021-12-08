@@ -5,7 +5,7 @@ import {publicAxios} from "../../store/utils/Axios"
 import {BsSearch} from "react-icons/bs"
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch} from 'react-redux';
-import { fetchNotesData } from '../../store/reducers/notas/action';
+import { fetchNotesData, searchByCategorie } from '../../store/reducers/notas/action';
 
 const getSecurity = ({security})=>security;
 const getNotes =({notes})=>notes;
@@ -24,7 +24,6 @@ const AgregarNota = () =>{
     }
 
     useEffect(() => {
-
         cargar();
     }, [])
 
@@ -39,6 +38,9 @@ const AgregarNota = () =>{
         }
     }
     
+    const onBusqueda = (e)=>{
+        console.log(termino);
+    }
     return(
         <Page showHeader={true}  showNavBar>
         <div className="overflow-hidden py-10">    
@@ -51,7 +53,10 @@ const AgregarNota = () =>{
                 <input className="w-1/2"
                 type="text"
                 value={termino}
-                onChange= {(e) => setTermino(e.target.value)}
+                onChange= {(e) => {
+                    setTermino(e.target.value);
+                    searchByCategorie(dispatch, e.target.value, user.correo_usu);
+                }}
                 />
             <button type="submit"><BsSearch className="text-black w-14"/></button> 
             </div>
@@ -66,21 +71,3 @@ const AgregarNota = () =>{
 }
 
 export default AgregarNota;
-/*
-            <h1>Notas</h1>
-            <hr />
-            <form class="mx-auto">
-            <div class="mx-auto md:flex md:items-center mb-6">
-            <label class="">Categorias</label>
-            <div class="md:w-1/3">
-                <input 
-                type="text"
-                value={termino}
-                onChange= {(e) => setTermino(e.target.value)}
-                />
-               </div>
-               <button type="submit">Buscar</button> 
-               </div>
-
-            </form>
-            */

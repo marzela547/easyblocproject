@@ -93,7 +93,7 @@ const Rcontrasen = ()=>{
           placeholder="Correo Electrónico Valido"
           onChange={onChangeHandler}
           name="txtCorreo"
-          readonly
+          readOnly
          />
           <label id="mensajea" className=" text-red-600 text-sm w-4 h-4 mb-4" ></label>
           <Password

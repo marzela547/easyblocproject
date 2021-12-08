@@ -53,6 +53,12 @@ class Notes{
         return {documents}
       }
 
+      async getAllNotasCategories(categoria_Not, correo_usu){
+        const filter = {categoria_Not: categoria_Not, correo_usu:correo_usu }
+        let notas = await this.notesColl.find( filter);
+        let documents = await notas.toArray();
+        return {documents}
+      }
     //***************************CONSULTAS****************************/
 
   //CONSULTAR 1 NOTA***************************************
@@ -70,6 +76,12 @@ class Notes{
 
   }
 
+  async getByTitlte(titulo,correo) {
+    let filter = { titulo_Not: titulo,correo_usu: correo};
+    let result = await this.notesColl.findOne(filter);
+    return result;
+  }
 }
+
 
 module.exports = Notes;

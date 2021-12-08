@@ -31,13 +31,14 @@ const NCategoria = () =>{
           document.getElementById('mensajen').innerHTML = '';
         }
         if(err==false){
-          if(categorie.length <1){
-
+          if(categorie.descripcion_cat === undefined){
+            console.log(categorie);
             addCategorie(dispatch, txtCategorie, user.correo_usu, navigate, "/categories");
           }else
               {
+                console.log(categorie);
                 updCategorie(dispatch, categorie.descripcion_cat, txtCategorie, user.correo_usu, navigate, "/categories");
-                  
+                
               }
         }
     }
@@ -51,7 +52,7 @@ const NCategoria = () =>{
         e.stopPropagation();
         setTxtCategorie(e.target.value);
       }
-      if(categorie.length <1){
+      if(categorie.descripcion_cat == undefined){
         title = "Nueva Categoría";
         boton = "Crear";
         
@@ -64,11 +65,12 @@ const NCategoria = () =>{
 
       const cargar=()=>{
       
-        if(!(categorie.length<1))
-        setTxtCategorie(categorie.descripcion_cat);
+        if(!(categorie.descripcion_cat===undefined) )
+          setTxtCategorie(categorie.descripcion_cat);
       }
     useEffect(()=>{
       cargar();
+      console.log(categorie);
     }, []);
 
     return(

@@ -12,12 +12,12 @@ const Perfil = () =>{
     const onChangeModificar = (e)=>{
         e.preventDefault();
         e.stopPropagation();
-        navigate('/login',{replace:true});
+        navigate('/',{replace:true});
     }
     const onChangeCambiar = (e)=>{
       e.preventDefault();
       e.stopPropagation();
-      
+      navigate('/ccontrasena',{replace:true});
    }
 
     return(

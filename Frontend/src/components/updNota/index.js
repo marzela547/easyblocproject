@@ -34,21 +34,20 @@ const UpdNota = ()=>{
     let expre;
     let tit;
     let not;
-    let id = '61af847c933702f1674a0b17';
     let correo = 'kevin@gmail.com';
     let color="";
     let posicion="";
     let tletra="";
     let cnestilo="";
-    const BtnCR =(e)=>{color="text-red-600"; Agreestilo();}
-    const BtnCA =(e)=>{color="text-blue-600";Agreestilo();}
-    const BtnCV =(e)=>{color="text-green-600";Agreestilo();}
-    const BtnCRo =(e)=>{color="text-pink-600";Agreestilo();}
-    const BtnCAm =(e)=>{color="text-yellow-600";Agreestilo();}
-    const BtnJus =(e)=>{posicion="text-justify";Agreestilo();}
-    const BtnCen =(e)=>{posicion="text-center";Agreestilo();}
-    const BtnNeg =(e)=>{tletra="font-bold";Agreestilo();}
-    const BtnCa =(e)=>{posicion="";color="";tletra="";Agreestilo();}
+    const BtnCR =(e)=>{color="text-red-600"; Agreestilo(e);}
+    const BtnCA =(e)=>{color="text-blue-600";Agreestilo(e);}
+    const BtnCV =(e)=>{color="text-green-600";Agreestilo(e);}
+    const BtnCRo =(e)=>{color="text-pink-600";Agreestilo(e);}
+    const BtnCAm =(e)=>{color="text-yellow-600";Agreestilo(e);}
+    const BtnJus =(e)=>{posicion="text-justify";Agreestilo(e);}
+    const BtnCen =(e)=>{posicion="text-center";Agreestilo(e);}
+    const BtnNeg =(e)=>{tletra="font-bold";Agreestilo(e);}
+    const BtnCa =(e)=>{posicion="";color="";tletra="";Agreestilo(e);}
     const Agreestilo =(e)=>{cnestilo = "w-full h-96 mx-auto "+ color+" "+ posicion+" "+tletra; Impestilo()}
     const Impestilo =(e)=>{
       document.getElementById('nota').className=cnestilo;
@@ -61,7 +60,7 @@ const UpdNota = ()=>{
       if(items.length ==0)
         fetchCategoriesData(dispatch, user.correo_usu);
       console.log(idNote);
-      
+      console.log(notes.estilos_not);
       settxtTitulo(notes.titulo_Not)
       settxtNota(notes.descripcion_Not)
       setTxtType(notes.categoria_Not)
@@ -105,12 +104,10 @@ const UpdNota = ()=>{
       err=false;
     }
     if(err==false){
-      UpdNot(dispatch,id, txtTitulo,  txtNota, txtType, cnestilo,user.correo_usu,navigate, "/notes" )
-  
-     
+      UpdNot(dispatch,notes._id, txtTitulo,  txtNota, txtType, cnestilo,navigate, "/notes" );
     }
     }else{
-        dltNota(dispatch, id, navigate, "/notes");
+        dltNota(dispatch, notes._id, navigate, "/notes");
     }
 
   }
@@ -169,17 +166,17 @@ const UpdNota = ()=>{
                                     </ComboBox>
                                     <div className="w-11/12 mx-auto h-16 bg-gray-600  flex-wrap">
                                       <div className="w-full flex justify-center">
-                                      <butto type="button" onClick={BtnCR} className="bg-red-600 h-6 w-6 mx-2 my-1 rounded"></butto>
-                                      <butto type="button" onClick={BtnCA} className="bg-blue-600 h-6 w-6  mx-2 my-1 rounded"></butto>
-                                      <butto type="button" onClick={BtnCV} className="bg-green-600 h-6 w-6  mx-2 my-1 rounded"></butto>
-                                      <butto type="button" onClick={BtnCRo} className="bg-pink-600 h-6 w-6  mx-2 my-1 rounded"></butto>
-                                      <butto type="button" onClick={BtnCAm} className="bg-yellow-400 h-6 w-6  mx-2 my-1 rounded"></butto>
+                                      <button type="button" onClick={BtnCR} className="bg-red-600 h-6 w-6 mx-2 my-1 rounded"></button>
+                                      <button type="button" onClick={BtnCA} className="bg-blue-600 h-6 w-6  mx-2 my-1 rounded"></button>
+                                      <button type="button" onClick={BtnCV} className="bg-green-600 h-6 w-6  mx-2 my-1 rounded"></button>
+                                      <button type="button" onClick={BtnCRo} className="bg-pink-600 h-6 w-6  mx-2 my-1 rounded"></button>
+                                      <button type="button" onClick={BtnCAm} className="bg-yellow-400 h-6 w-6  mx-2 my-1 rounded"></button>
                                       </div>
                                       <div className="w-full flex justify-center">
-                                        <butto type="button" onClick={BtnJus} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaBars className="mt-1"/> </butto>
-                                        <butto type="button" onClick={BtnCen} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaAlignCenter className="mt-1"/> </butto>
-                                        <butto type="button" onClick={BtnNeg} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaFont className="mt-1"/> </butto>
-                                        <butto type="button" onClick={BtnCa} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaRegWindowClose className="mt-1"/> </butto>
+                                        <button type="button" onClick={BtnJus} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaBars className="mt-1"/> </button>
+                                        <button type="button" onClick={BtnCen} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaAlignCenter className="mt-1"/> </button>
+                                        <button type="button" onClick={BtnNeg} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaFont className="mt-1"/> </button>
+                                        <button type="button" onClick={BtnCa} className="bg-gray-200 h-6 w-6  mx-2 my-1 rounded flex justify-center"><FaRegWindowClose className="mt-1"/> </button>
                                       </div>
                                     </div>
 
