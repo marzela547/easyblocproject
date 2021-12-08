@@ -5,7 +5,6 @@ var notes = new NotesDao();
 var CategeroisDao = require('./categories');
 var categories = new CategeroisDao();
 
-
 //agregar nueva nota*********
 router.post('/new', async(req, res, next) => {
     try {
@@ -14,14 +13,15 @@ router.post('/new', async(req, res, next) => {
             categoria_Not,
             descripcion_Not,
             estilos_not,
-            correo_usu
-            
+            correo_usu,
+            imagen_not
         } = req.body;
         
         // validaciones
-        const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu);
+        const result = await notes.addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu, imagen_not);
         console.log(result);
         res.status(200).json({ msg: "Agregado Satisfactoriamente" });
+
     } catch (ex) {
         console.log(ex);
         return res.status(500).json({ msg: "Error al procesar petición" });

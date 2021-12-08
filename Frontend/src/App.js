@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import './App.css';
 import RequireAuth from './components/UI/RequireAuth';
+import './store/utils/firebase';
 import Login from "./components/Login";
 import Ccontasena from "./components/Ccontrasena";
 import NCategoria from "./components/NuevaCategoria";
@@ -13,7 +14,6 @@ import Remail from "./components/Remail";
 import Rcodigo from "./components/Rcodigo";
 import Nota from "./components/Notas";
 import Categoria from "./components/Categorias";
-
 import AddNota from "./components/AddNota";
 import UpdNota from "./components/updNota";
 const Private = ({ children }) => <RequireAuth redirectTo="/login">{children}</RequireAuth>

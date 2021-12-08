@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { publicAxios } from '../../store/utils/Axios';
+import {storage, db } from '../../store/utils/firebase';
+import { ref, getDownloadURL, uploadString } from '@firebase/storage';
+import {setDoc,collection,doc,serverTimestamp,updateDoc} from'firebase/firestore';
 import { useEffect } from 'react';
 import Page from '../Page';
 import TextBox from '../UI/TextBox';
 import { PrimaryButton } from '../UI/Button';
 import ComboBox from '../UI/ComboBox';
-import TextArea from '../UI/TextArea';
 import { addNewNota } from '../../store/reducers/notas/action';
 import { fetchCategoriesData } from '../../store/reducers/categories/actions';
 import { useSelector, useDispatch} from 'react-redux';
-import { cargarCatCmb } from '../../store/reducers/notas/action';
 import {FaBars,FaFont,FaAlignCenter,FaRegWindowClose} from "react-icons/fa"
-
+import './index.css';
 const getSecurity = ({security})=>security;
 const getCategories = ({categories})=>categories;
 
@@ -23,14 +23,17 @@ const AddNota = ()=>{
   const [txtTitulo, settxtTitulo] = useState("");
   const [txtNota, settxtNota] = useState("");
   const [txtType, setTxtType] = useState('S');
+  const [txtImage, setTxtImage] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ 
   let err;
   let expre;
   let cnestilo="w-full h-96 mx-auto ";
   let color="";
   let posicion="";
   let tletra="";
+  let imagenMostrar;
   const BtnCR =(e)=>{color="text-red-600"; Agreestilo();}
   const BtnCA =(e)=>{color="text-blue-600";Agreestilo();}
   const BtnCV =(e)=>{color="text-green-600";Agreestilo();}
@@ -83,8 +86,22 @@ const AddNota = ()=>{
       err=false;
     }
     if(err==false){
-      addNewNota(dispatch, txtTitulo, txtType, txtNota,cnestilo, "marcelazelaya547@yahoo.com",navigate, "/ccontrasena" )
+      //const f = new FormData();
+     // const imageRef = ref().child(txtImage);
 
+      //var file = ... // use the Blob or File API
+      //ref.put(file).then(function(snapshot) {
+        //console.log('Uploaded a blob or file!');
+   //   }); 
+
+     /*uploadString(imageRef,txtImage,"photo").then( snapshot=>{
+      const downloadURL = getDownloadURL(imageRef);
+
+     updateDoc(doc(db,'photos',null),{
+        photos:downloadURL
+      });
+     // addNewNota(dispatch, txtTitulo, txtType, txtNota,cnestilo, user.correo_usu, txtImage,navigate, "/ccontrasena" )
+    });*/
       console.log(txtType)
     }
   }
@@ -102,9 +119,16 @@ const AddNota = ()=>{
             settxtNota(value);
             break;
         
+        
       }
     
     }
+
+    const onChangeImage=e=>{
+      setTxtImage(e);
+      //imagenMostrar = (<img />)
+    }
+
     return(
 
         <Page showHeader={true} title="Nueva " showNavBar>
@@ -163,9 +187,16 @@ const AddNota = ()=>{
                                         
                                       </textarea>
                                     </div>
+                                    <div className="h-32 w-32 bg-gray-100 my-3 p-2 box-border">
+                                    
+                                      <div className="h-full text-center border-2 border-dotted border-gray-500">
+                                        <div className="py-4 z-0 box-content h-0 overflow-visible">
+                                          <p className="h-0  z-0 mx-5 text-gray-600">Seleccionar imagen</p>
+                                        </div>
+                                          <input onChange={(e)=>onChangeImage(e.target.files)} name="Imagen" className=" relative w-max h-full bg-yellow-400" accept="image/png, image/jpg" type="file" name="imagen" />
+                                        </div>
+                                      </div>
                                     <label id="mensajet" className=" text-red-600 text-sm w-4 h-4 mb-4" ></label>
-                                  
-                                   
                                         <div  className="w-11/12 p-0.5 m-auto mt-5 mb-8 bg-black text-white">
                                             <PrimaryButton onClick={onBtnClick}>Crear Nota</PrimaryButton>
                                           </div>

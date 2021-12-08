@@ -16,14 +16,14 @@ class Notes{
     }
   }
 
-    async addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not, correo_usu) {
+    async addNew(titulo_Not, categoria_Not, descripcion_Not,estilos_not, correo_usu, imagen_not) {
         let newNota = {
             titulo_Not,
             categoria_Not,
             descripcion_Not,
             estilos_not,
             correo_usu,
-            
+            imagen_not
         }
         let result = await this.notesColl.insertOne(newNota);
         return result;

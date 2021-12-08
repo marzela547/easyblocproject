@@ -1,5 +1,5 @@
 import { privateAxios } from "../../utils/Axios";
-
+import { app, db, storage } from "../../utils/firebase";
 
 export const fetchNotesData = (dispatch, correo)=>{
   dispatch(
@@ -30,11 +30,11 @@ export const fetchNotesData = (dispatch, correo)=>{
 }
 
 /**************************************INSERTAR NOTA************************************************************************/
-export const addNewNota = (dispatch, titulo_Not, categoria_Not, descripcion_Not, estilos_not,correo_usu,navigate, to)=>{
+export const addNewNota = (dispatch, titulo_Not, categoria_Not, descripcion_Not, estilos_not, correo_usu,imagen_not,navigate, to)=>{
     dispatch(
       {type:"NOTAS_ADD_START", payload:null}
     );
-    privateAxios.post('/api/notes/new', {titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu})
+    privateAxios.post('/api/notes/new', {titulo_Not, categoria_Not, descripcion_Not,estilos_not,correo_usu, imagen_not})
       .then(({data})=>{
         console.log(data);
         dispatch(
@@ -44,6 +44,7 @@ export const addNewNota = (dispatch, titulo_Not, categoria_Not, descripcion_Not,
           }
         );
         dispatch({ type:"NOTAS_LIST_CLEAR", payload:null});
+       // const storageRef = storage.ref() 
         navigate(to);
       })
       .catch((err)=>{
